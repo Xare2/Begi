@@ -1,0 +1,15 @@
+<mesh>
+	<buffers>
+		<buffer>
+			<material>
+				<color>1,1,1,1</color>
+				<texture type="color2D">
+				  <layer name="textureColor">data/flame.png</layer>
+				  <layer name="textureDepth"></layer>
+				</texture>
+				<shader>data/shader.vert,data/shader.frag</shader>
+			</material>
+			<meshData>data/plane2D.obj</meshData>
+		</buffer>
+	</buffers>
+</mesh>

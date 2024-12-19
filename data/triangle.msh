@@ -1,0 +1,23 @@
+<mesh>
+  <buffers>
+    <buffer>
+      <material>
+        <texture cubeMap="false">data/front.png</texture>
+				<color>1,1,1,1</color>
+				<texture cubeMap="false">data/front.png</texture>
+				<shaderDesc>data/shaderDesc.xml</shaderDesc>
+				<depthWrite>true</depthWrite>
+				<light>false</light>
+				<shadow>false</shadow>
+				<shininess>1</shininess>
+				<blendMode>alpha</blendMode>
+				<refraction>false</refraction>
+				<refractCoef>0.9</refractCoef>
+				<reflection>false</reflection>
+      </material>
+      <indices>0,1,2</indices>
+      <coords vertexCompCount="3">-0.5,-0.5,0.0,0.5,-0.5,0.0,0.0,0.5,0.0</coords>
+      <texCoords texCoordCompCount="2">0.0,0.0,1.0,0.0,0.5,1.0</texCoords>
+    </buffer>
+  </buffers>
+</mesh>	

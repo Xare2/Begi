@@ -1,0 +1,19 @@
+<mesh>
+	<buffers>
+		<buffer>
+			<material>
+				<color>0.5,1.0,0.5,1</color>				
+				<shader>data/shader.vert,data/shader.frag</shader>
+				<depthWrite>true</depthWrite>
+				<light>true</light>
+				<shadow>false</shadow>
+				<shininess>20</shininess>
+				<blendMode>alpha</blendMode>
+				<refraction>false</refraction>
+				<refractIndex>0.9</refractIndex>
+				<reflection>false</reflection>
+			</material>
+			<meshData>data/Feng_Shui.obj</meshData>
+		</buffer>		
+	</buffers>
+</mesh>

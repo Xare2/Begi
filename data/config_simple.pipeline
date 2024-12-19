@@ -1,0 +1,18 @@
+<pipeline>
+<!-- SHADOW STEP -->
+<step>
+	<output>
+		<!-- <color>textureColor</color> -->
+		<depth>textureDepth</depth>
+	</output>
+</step>
+<!-- RENDER STEP -->
+<step>
+	<input>
+		<!-- <depth>textureDepth</depth> -->
+	</input>
+	<output>
+		<screen>screen</screen>
+	</output>
+</step>
+</pipeline>

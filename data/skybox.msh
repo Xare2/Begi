@@ -1,0 +1,22 @@
+<mesh>
+	<buffers>
+		<buffer>
+			<material>
+				<color>1,1,1,1</color>
+				<texture cubeMap="true" >data/sky_left.png,data/sky_right.png,data/sky_front.png,data/sky_back.png,data/sky_top.png,data/sky_bottom.png</texture>
+				<shaderDesc>data/shaderDesc.xml</shaderDesc>
+				<depthWrite>false</depthWrite>
+				<light>false</light>
+				<shadow>false</shadow>
+				<shininess>1</shininess>
+				<blendMode>alpha</blendMode>
+				<refraction>false</refraction>
+				<refractCoef>0.9</refractCoef>
+				<reflection>false</reflection>
+			</material>
+			<indices>0,1,2,2,3,0,4,5,6,6,7,4,1,4,7,7,2,1,5,0,3,3,6,5,4,1,0,0,5,4,3,2,7,7,6,3</indices>
+			<coords vertexCompCount="3">1.000000,1.000000,-1.000000,1.000000,1.000000,1.000000,-1.000000,1.000000,1.000000,-1.000000,1.000000,-1.000000,1.000000,-1.000000,1.000000,1.000000,-1.000000,-1.000000,-1.000000,-1.000000,-1.000000,-1.000000,-1.000000,1.000000</coords>
+			<normals normalCompCount="3">-0.666667,-0.666667,0.333333,-0.408248,-0.408248,-0.816497,0.408248,-0.816497,-0.408248,0.666667,-0.333333,0.666667,-0.666667,0.666667,-0.333333,-0.408248,0.408248,0.816497,0.408248,0.816497,0.408248,0.666667,0.333333,-0.666667</normals>
+		</buffer>
+	</buffers>
+</mesh>

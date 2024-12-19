@@ -1,0 +1,22 @@
+<mesh>
+	<buffers>
+		<buffer>
+			<material>
+				<color>1,1,1,1</color>
+				<texture type="cubeMap" >
+					<layer name="textureColor" >data/sky_left.png,data/sky_right.png,data/sky_front.png,data/sky_back.png,data/sky_top.png,data/sky_bottom.png</layer>
+				</texture>
+				<shader>data/shader.vert,data/shader.frag</shader>
+				<depthWrite>true</depthWrite>
+				<light>true</light>
+				<shadow>true</shadow>
+				<shininess>64</shininess>
+				<blendMode>alpha</blendMode>
+				<refraction>false</refraction>
+				<refractIndex>1.5</refractIndex>
+				<reflection>true</reflection>
+			</material>
+			<meshData>data/teapot.obj</meshData>
+		</buffer>
+	</buffers>
+</mesh>

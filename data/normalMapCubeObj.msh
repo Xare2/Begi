@@ -1,0 +1,23 @@
+<mesh>
+	<buffers>
+		<buffer>
+			<material>
+				<color>1,1,1,1</color>
+				<texture type="color2D" >
+					<layer name="textureColor" >data/bricks2.jpg</layer>
+					<layer name="textureNormal" >data/bricks2_normal.jpg</layer>
+				</texture>
+				<shader>data/shader.vert,data/shader.frag</shader>
+				<depthWrite>true</depthWrite>
+				<light>true</light>
+				<shadow>true</shadow>
+				<shininess>16</shininess>
+				<blendMode>alpha</blendMode>
+				<refraction>false</refraction>
+				<refractIndex>0.9</refractIndex>
+				<reflection>false</reflection>
+			</material>
+			<meshData>data/normalCube.obj</meshData>
+		</buffer>
+	</buffers>
+</mesh>

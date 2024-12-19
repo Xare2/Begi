@@ -1,0 +1,23 @@
+<mesh>
+	<buffers>
+		<buffer>
+			<material>
+				<color>1.0,1.0,1.0,1</color>
+				<texture type="color2D" >
+					<layer name="textureColor" >data/terrain/diffuse.jpg</layer>
+					<layer name="textureNormal" >data/terrain/normal.png</layer>
+				</texture>				
+				<shader>data/shader.vert,data/shader.frag</shader>
+				<depthWrite>true</depthWrite>
+				<light>true</light>
+				<shadow>false</shadow>
+				<shininess>0</shininess>
+				<blendMode>alpha</blendMode>
+				<refraction>false</refraction>
+				<refractIndex>0.9</refractIndex>
+				<reflection>false</reflection>
+			</material>
+			<meshData>data/terrain/terrain.obj</meshData>
+		</buffer>		
+	</buffers>
+</mesh>

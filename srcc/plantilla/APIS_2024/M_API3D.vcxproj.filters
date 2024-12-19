@@ -1,0 +1,323 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Archivos de origen">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Archivos de encabezado">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Archivos de recursos">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Archivos de recursos\data">
+      <UniqueIdentifier>{7966902b-36d0-4d69-9f51-49031cab7bbe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de origen\VK">
+      <UniqueIdentifier>{c477e1d2-fff0-4f33-b63b-5e7d82a68bc6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de origen\GLSL">
+      <UniqueIdentifier>{5ac15606-4fdd-4f49-ad21-5f1c8e4a4009}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\VK">
+      <UniqueIdentifier>{9dfe4245-fd60-4707-a7c3-4a2d6da8a666}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\GLSL">
+      <UniqueIdentifier>{8163de99-2fee-487b-92b7-91d0ebab7582}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Imgui">
+      <UniqueIdentifier>{d59a58e5-1aba-4595-9ae3-494989fb53fb}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="APIS3D_2024.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="mapi\Object.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="mapi\FactoryEngine.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="mapi\GLFWInputManager.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="mapi\InputManager.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="mapi\Render.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="mapi\System.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="mapi\World.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="mapi\Material.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="mapi\Mesh3D.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="mapi\Entity.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="mapi\Object3D.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="mapi\Program.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="mapi\VKShader.cpp">
+      <Filter>Archivos de origen\VK</Filter>
+    </ClCompile>
+    <ClCompile Include="mapi\VKProgram.cpp">
+      <Filter>Archivos de origen\VK</Filter>
+    </ClCompile>
+    <ClCompile Include="mapi\VKBufferMemory.cpp">
+      <Filter>Archivos de origen\VK</Filter>
+    </ClCompile>
+    <ClCompile Include="mapi\VKRender.cpp">
+      <Filter>Archivos de origen\VK</Filter>
+    </ClCompile>
+    <ClCompile Include="mapi\GLProgram.cpp">
+      <Filter>Archivos de origen\GLSL</Filter>
+    </ClCompile>
+    <ClCompile Include="mapi\GLRender.cpp">
+      <Filter>Archivos de origen\GLSL</Filter>
+    </ClCompile>
+    <ClCompile Include="mapi\GL4Render.cpp">
+      <Filter>Archivos de origen\GLSL</Filter>
+    </ClCompile>
+    <ClCompile Include="mapi\Camera.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="mapi\Texture.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="mapi\GLTexture.cpp">
+      <Filter>Archivos de origen\GLSL</Filter>
+    </ClCompile>
+    <ClCompile Include="mapi\VKTexture.cpp">
+      <Filter>Archivos de origen\VK</Filter>
+    </ClCompile>
+    <ClCompile Include="mapi\Light.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="mapi\RotatinLight.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="mapi\Billboard.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="mapi\Particle.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="mapi\Emitter.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="mapi\GLTextureFB.cpp">
+      <Filter>Archivos de origen\GLSL</Filter>
+    </ClCompile>
+    <ClCompile Include="mapi\VKTextureFB.cpp">
+      <Filter>Archivos de origen\VK</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\imgui.cpp">
+      <Filter>Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\imgui_demo.cpp">
+      <Filter>Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\imgui_draw.cpp">
+      <Filter>Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\imgui_impl_glfw.cpp">
+      <Filter>Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\imgui_impl_opengl3.cpp">
+      <Filter>Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\imgui_impl_vulkan.cpp">
+      <Filter>Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\imgui_stdlib.cpp">
+      <Filter>Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\imgui_tables.cpp">
+      <Filter>Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\imgui_widgets.cpp">
+      <Filter>Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="mapi\CloudConfiguration.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="mapi\common.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="mapi\GLProgram.h">
+      <Filter>Archivos de encabezado\GLSL</Filter>
+    </ClInclude>
+    <ClInclude Include="mapi\FactoryEngine.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="mapi\GLFWInputManager.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="mapi\InputManager.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="mapi\Object.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="mapi\Render.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="mapi\System.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="mapi\World.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="mapi\vertex.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="mapi\EventManager.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="mapi\Material.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="mapi\Mesh3D.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="mapi\Entity.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="mapi\Object3D.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="mapi\Program.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="mapi\RenderProgram.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="mapi\VKShader.h">
+      <Filter>Archivos de encabezado\VK</Filter>
+    </ClInclude>
+    <ClInclude Include="mapi\VKProgram.h">
+      <Filter>Archivos de encabezado\VK</Filter>
+    </ClInclude>
+    <ClInclude Include="mapi\VKBufferMemory.h">
+      <Filter>Archivos de encabezado\VK</Filter>
+    </ClInclude>
+    <ClInclude Include="mapi\VKRender.h">
+      <Filter>Archivos de encabezado\VK</Filter>
+    </ClInclude>
+    <ClInclude Include="mapi\TutorialVulkan.h">
+      <Filter>Archivos de encabezado\VK</Filter>
+    </ClInclude>
+    <ClInclude Include="mapi\GLRender.h">
+      <Filter>Archivos de encabezado\GLSL</Filter>
+    </ClInclude>
+    <ClInclude Include="mapi\GL4Render.h">
+      <Filter>Archivos de encabezado\GLSL</Filter>
+    </ClInclude>
+    <ClInclude Include="mapi\Camera.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="mapi\Texture.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="mapi\GLTexture.h">
+      <Filter>Archivos de encabezado\GLSL</Filter>
+    </ClInclude>
+    <ClInclude Include="mapi\VKTexture.h">
+      <Filter>Archivos de encabezado\VK</Filter>
+    </ClInclude>
+    <ClInclude Include="mapi\Light.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="mapi\RotatinLight.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="mapi\Billboard.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="mapi\Particle.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="mapi\Emitter.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="mapi\GLTextureFB.h">
+      <Filter>Archivos de encabezado\GLSL</Filter>
+    </ClInclude>
+    <ClInclude Include="mapi\Armature.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="mapi\VKTextureFB.h">
+      <Filter>Archivos de encabezado\VK</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imconfig.h">
+      <Filter>Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imgui.h">
+      <Filter>Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imgui_impl_glfw.h">
+      <Filter>Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imgui_impl_opengl3.h">
+      <Filter>Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imgui_impl_opengl3_loader.h">
+      <Filter>Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imgui_impl_vulkan.h">
+      <Filter>Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imgui_internal.h">
+      <Filter>Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imgui_stdlib.h">
+      <Filter>Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imstb_rectpack.h">
+      <Filter>Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imstb_textedit.h">
+      <Filter>Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imstb_truetype.h">
+      <Filter>Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="mapi\CloudConfiguration.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="data\shader.vert">
+      <Filter>Archivos de recursos\data</Filter>
+    </None>
+    <None Include="data\shader.frag">
+      <Filter>Archivos de recursos\data</Filter>
+    </None>
+    <None Include="mapi\vk_shader.vert">
+      <Filter>Archivos de encabezado\VK</Filter>
+    </None>
+    <None Include="mapi\vk_shader.frag">
+      <Filter>Archivos de encabezado\VK</Filter>
+    </None>
+    <None Include="mapi\compile.bat">
+      <Filter>Archivos de encabezado\VK</Filter>
+    </None>
+  </ItemGroup>
+</Project>
