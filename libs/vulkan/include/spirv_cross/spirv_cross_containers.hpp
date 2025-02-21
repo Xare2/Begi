@@ -33,7 +33,7 @@
 #include <stack>
 #include <stddef.h>
 #include <stdint.h>
-#include <stdlib.h>
+#include <cstdlib>
 #include <string.h>
 #include <type_traits>
 #include <unordered_map>
