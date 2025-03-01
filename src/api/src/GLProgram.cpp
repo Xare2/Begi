@@ -7,13 +7,13 @@ GLSLShader::GLSLShader(std::string filename, unsigned int type) : Program(filena
 {
 	readFile();
 
-	//Crear id
+	// Crear id
 	this->idProgram = glCreateShader((int)type);
 
-	//Compilar código
+	// Compilar cï¿½digo
 	compile();
 
-	//Mostrar errores
+	// Mostrar errores
 	checkErrors();
 }
 
@@ -24,23 +24,21 @@ unsigned int GLSLShader::getIdProgram()
 
 void GLSLShader::compile()
 {
-	const char* c = source.c_str();
+	const char *c = source.c_str();
 	glShaderSource(this->idProgram, 1, &c, nullptr);
 	glCompileShader(this->idProgram);
-
 }
 
 void GLSLShader::readFile()
 {
 	std::ifstream f(fileName);
-	if (f.is_open())
-	{
-		source = std::string(std::istreambuf_iterator<char>(f), {});
-	}
-	else
+	if (!f.is_open())
 	{
 		std::cout << __FILE__ << ": " << __LINE__ << "ERROR: FICHERO NO ENCONTRADO " << __FILE__ << ":" << __LINE__ << " " << fileName << "\n";
+		return;
 	}
+
+	source = std::string(std::istreambuf_iterator<char>(f), {});
 }
 
 void GLSLShader::checkErrors()
@@ -52,32 +50,36 @@ void GLSLShader::checkErrors()
 		GLsizei log_length = 0;
 		GLchar message[1024];
 		glGetShaderInfoLog(idProgram, 1024, &log_length, message);
-		std::cout << __FILE__ << ": " << __LINE__ << ": " << "ERROR compiling " << "\n" << message << "\n\n";
+		std::cout << __FILE__ << ": " << __LINE__ << ": " << "ERROR compiling " << "\n"
+				  << message << "\n\n";
 	}
 }
 
 GLProgram::GLProgram()
 {
-	// Crear identificador 
+	// Crear identificador
 	programId = glCreateProgram();
 }
 
 void GLProgram::addProgram(std::string filename)
 {
-	if (filename.ends_with(".vert")) { //Shader de vertices 
+	if (filename.ends_with(".vert"))
+	{ // Shader de vertices
 		shaderList[GL_VERTEX_SHADER] = new GLSLShader(filename, GL_VERTEX_SHADER);
 	}
-	else if (filename.ends_with(".frag")) { //Shader de fragmento
+	else if (filename.ends_with(".frag"))
+	{ // Shader de fragmento
 		shaderList[GL_FRAGMENT_SHADER] = new GLSLShader(filename, GL_FRAGMENT_SHADER);
 	}
-	else {
-		std::cout << __FILE__ << ": " << __LINE__ << "ERROR: Extensión de fichero " << filename << " no válida\n";
+	else
+	{
+		std::cout << __FILE__ << ": " << __LINE__ << "ERROR: Extensiï¿½n de fichero " << filename << " no vï¿½lida\n";
 	}
 }
 
 void GLProgram::linkProgram()
 {
-	for (auto& sh : shaderList)
+	for (auto &sh : shaderList)
 	{
 		glAttachShader(programId, sh.second->getIdProgram());
 	}
@@ -94,7 +96,7 @@ void GLProgram::getVarList()
 	// Listar variables Atributo
 	glGetProgramiv(programId, GL_ACTIVE_ATTRIBUTES, &count);
 
-	// y por cada variable 
+	// y por cada variable
 	while (--count >= 0)
 	{
 		std::string varName;
@@ -102,31 +104,33 @@ void GLProgram::getVarList()
 		GLint size;
 		GLenum type;
 		varName.resize(maxStringSize);
-		//conseguir el location
+		// conseguir el location
 		glGetActiveAttrib(programId, (GLuint)count, maxStringSize, &length, &size, &type, varName.data());
 		varName = std::string(varName.c_str());
-		//interrogar con nombre
-		//guardar con nombre
+		// interrogar con nombre
+		// guardar con nombre
 		varList[varName] = glGetAttribLocation(programId, varName.c_str());
 	}
 
 	// Listar variables Uniform
 	glGetProgramiv(programId, GL_ACTIVE_UNIFORMS, &count);
-	// y por cada variable 
-	while (--count >= 0) {
+	// y por cada variable
+	while (--count >= 0)
+	{
 		std::string varName;
 		GLsizei length;
 		GLint size;
 		GLenum type;
 		varName.resize(maxStringSize);
-		//conseguir el location
+		// conseguir el location
 		glGetActiveUniform(programId, (GLuint)count, maxStringSize, &length, &size, &type, varName.data());
 		varName = std::string(varName.c_str());
 
-		//interrogar con nombre
-		if (varName[varName.length() - 1] == ']') {//si es de tipo array
+		// interrogar con nombre
+		if (varName[varName.length() - 1] == ']')
+		{ // si es de tipo array
 			std::string arrName = varName.substr(0, varName.find('['));
-			for (int i = 0; i < size; i++) //coneguir la lista completade nombres
+			for (int i = 0; i < size; i++) // coneguir la lista completade nombres
 			{
 				std::string arrNameIdx = arrName + "[" + std::to_string(i) + "]";
 				varList[arrNameIdx] = glGetUniformLocation(programId, arrNameIdx.c_str());
@@ -136,9 +140,9 @@ void GLProgram::getVarList()
 			varList[varName] = glGetUniformLocation(programId, varName.c_str());
 	}
 
-	//getLightVarList();
+	// getLightVarList();
 
-	//std::cout << varList.size() << std::endl;
+	// std::cout << varList.size() << std::endl;
 }
 
 // NOTE: esto es una guarrada pero estamos a sabado, se entrega hoy, ya para otro dia enviar correo a Marcos
@@ -150,7 +154,7 @@ void GLProgram::getLightVarList()
 	auto iaux = glGetUniformLocation(programId, "lights[1].color");
 	auto iaux2 = glGetUniformLocation(programId, "lights[0].color");
 	int maxStringSize = 512;
-	for (auto& it : varList)
+	for (auto &it : varList)
 	{
 		std::string name = it.first;
 		size_t idx = name.find("[");
@@ -183,11 +187,9 @@ unsigned int GLProgram::getVarLocation(std::string varName)
 {
 	if (varList.find(varName) != varList.end())
 		return varList[varName];
-	else
-	{
-		std::cout << __FILE__ << ": " << __LINE__ << ": " << "ERROR: variable " << varName << " no encontrada en shader\n";
-		return -1;
-	}
+
+	std::cout << __FILE__ << ": " << __LINE__ << ": " << "ERROR: variable " << varName << " no encontrada en shader\n";
+	return -1;
 }
 
 void GLProgram::checkLinkerErrors()
@@ -204,181 +206,191 @@ void GLProgram::checkLinkerErrors()
 
 		std::string message(infoLog.data());
 
-		std::cout << __FILE__ << ": " << __LINE__ << ": " << "ERROR linking " << "\n" << message << "\n\n";
+		std::cout << __FILE__ << ": " << __LINE__ << ": " << "ERROR linking " << "\n"
+				  << message << "\n\n";
 	}
 }
 
 void GLProgram::setMVP(glm::mat4 m)
 {
-	//buscar location	
+	// buscar location
 	std::string key = "MVP";
 	auto location = varList.find(key);
-	if (location != varList.end()) { //Ha encontrado la variable
-		glUniformMatrix4fv(location->second, 1, GL_FALSE, &m[0][0]);
-	}
-	else { //No la ha encontrado
+	if (location == varList.end())
+	{ // Ha encontrado la variable
 		std::cout << __FILE__ << ": " << __LINE__ << ": " << "ERROR, variable " << key << " no existe\n";
+		return;
 	}
+
+	glUniformMatrix4fv(location->second, 1, GL_FALSE, &m[0][0]);
 }
 
-void GLProgram::setVertexPos(GLsizei stride, void* offset, GLint count, GLenum type)
+void GLProgram::setVertexPos(GLsizei stride, void *offset, GLint count, GLenum type)
 {
-	//buscar location	
+	// buscar location
 	std::string key = "vPos";
 	auto location = varList.find(key);
-	if (location != varList.end()) { //Ha encontrado la variable
-		glEnableVertexAttribArray(location->second);
-		glVertexAttribPointer(location->second, count, type, GL_FALSE, stride, offset);
-	}
-	else { //No la ha encontrado
+	if (location == varList.end())
+	{ // Ha encontrado la variable
 		std::cout << __FILE__ << ": " << __LINE__ << ": " << "ERROR, variable " << key << " no existe\n";
+		return;
 	}
+
+	glEnableVertexAttribArray(location->second);
+	glVertexAttribPointer(location->second, count, type, GL_FALSE, stride, offset);
 }
 
-void GLProgram::setVertexColor(GLsizei stride, void* offset, GLint count, GLenum type)
+void GLProgram::setVertexColor(GLsizei stride, void *offset, GLint count, GLenum type)
 {
-	//buscar location	
+	// buscar location
 	std::string key = "vColor";
 	auto location = varList.find(key);
-	if (location != varList.end()) { //Ha encontrado la variable
-		glEnableVertexAttribArray(location->second);
-		glVertexAttribPointer(location->second, count, type, GL_FALSE, stride, offset);
-	}
-	else { //No la ha encontrado
+	if (location == varList.end())
+	{ // Ha encontrado la variable
 		std::cout << __FILE__ << ": " << __LINE__ << ": " << "ERROR, variable " << key << " no existe\n";
+		return;
 	}
+
+	glEnableVertexAttribArray(location->second);
+	glVertexAttribPointer(location->second, count, type, GL_FALSE, stride, offset);
 }
 
-void GLProgram::setVertexNormal(GLsizei stride, void* offset, GLint count, GLenum type)
+void GLProgram::setVertexNormal(GLsizei stride, void *offset, GLint count, GLenum type)
 {
-	//buscar location	
+	// buscar location
 	std::string key = "vNormal";
 	auto location = varList.find(key);
-	if (location != varList.end()) { //Ha encontrado la variable
-		glEnableVertexAttribArray(location->second);
-		glVertexAttribPointer(location->second, count, type, GL_FALSE, stride, offset);
-	}
-	else { //No la ha encontrado
+	if (location == varList.end())
+	{ // Ha encontrado la variable
 		std::cout << __FILE__ << ": " << __LINE__ << ": " << "ERROR, variable " << key << " no existe\n";
+		return;
 	}
+
+	glEnableVertexAttribArray(location->second);
+	glVertexAttribPointer(location->second, count, type, GL_FALSE, stride, offset);
 }
 
-void GLProgram::setVertexCoordText(GLsizei stride, void* offset, GLint count, GLenum type)
+void GLProgram::setVertexCoordText(GLsizei stride, void *offset, GLint count, GLenum type)
 {
-	//buscar location	
+	// buscar location
 	std::string key = "vCoordTex";
 	auto location = varList.find(key);
-	if (location != varList.end()) { //Ha encontrado la variable
-		glEnableVertexAttribArray(location->second);
-		glVertexAttribPointer(location->second, count, type, GL_FALSE, stride, offset);
-	}
-	else { //No la ha encontrado
+	if (location == varList.end())
+	{ // Ha encontrado la variable
 		std::cout << __FILE__ << ":" << __LINE__ << "ERROR, variable " << key << " no existe\n";
+		return;
 	}
+
+	glEnableVertexAttribArray(location->second);
+	glVertexAttribPointer(location->second, count, type, GL_FALSE, stride, offset);
 }
 
-void GLProgram::setVertexTangent(GLsizei stride, void* offset, GLint count, GLenum type)
+void GLProgram::setVertexTangent(GLsizei stride, void *offset, GLint count, GLenum type)
 {
-	//buscar location	
+	// buscar location
 	std::string key = "vTangent";
 	auto location = varList.find(key);
-	if (location != varList.end()) { //Ha encontrado la variable
-		glEnableVertexAttribArray(location->second);
-		glVertexAttribPointer(location->second, count, type, GL_FALSE, stride, offset);
-	}
-	else { //No la ha encontrado
+	if (location == varList.end())
+	{ // Ha encontrado la variable
 		std::cout << __FILE__ << ":" << __LINE__ << "ERROR, variable " << key << " no existe\n";
+		return;
 	}
+
+	glEnableVertexAttribArray(location->second);
+	glVertexAttribPointer(location->second, count, type, GL_FALSE, stride, offset);
 }
 
-void GLProgram::setVertexBonesIdx(GLsizei stride, void* offset, GLint count, GLenum type)
+void GLProgram::setVertexBonesIdx(GLsizei stride, void *offset, GLint count, GLenum type)
 {
 	std::string key = "vboneIndices";
 	auto location = varList.find(key);
-	if (location != varList.end())
-	{
-		glEnableVertexAttribArray(location->second);
-		glVertexAttribPointer(location->second, count, type, GL_FALSE, stride, offset);
-	}
-	else 
+	if (location == varList.end())
 	{
 		std::cout << __FILE__ << ":" << __LINE__ << "ERROR, variable " << key << " no existe\n";
+		return;
 	}
+
+	glEnableVertexAttribArray(location->second);
+	glVertexAttribPointer(location->second, count, type, GL_FALSE, stride, offset);
 }
 
-void GLProgram::setVertexBonesWeights(GLsizei stride, void* offset, GLint count, GLenum type)
+void GLProgram::setVertexBonesWeights(GLsizei stride, void *offset, GLint count, GLenum type)
 {
 	std::string key = "vboneWeights";
 	auto location = varList.find(key);
-	if (location != varList.end())
-	{
-		glEnableVertexAttribArray(location->second);
-		glVertexAttribPointer(location->second, count, type, GL_FALSE, stride, offset);
-	}
-	else 
+	if (location == varList.end())
 	{
 		std::cout << __FILE__ << ":" << __LINE__ << "ERROR, variable " << key << " no existe\n";
+		return;
 	}
+
+	glEnableVertexAttribArray(location->second);
+	glVertexAttribPointer(location->second, count, type, GL_FALSE, stride, offset);
 }
 
 void GLProgram::setInt(std::string name, int val)
 {
 	unsigned int location = getVarLocation(name);
 
-	if (location != -1) { //Ha encontrado la variable
-		glUniform1i(location, val);
-	}
-	else { //No la ha encontrado
+	if (location == -1)
+	{ // Ha encontrado la variable
 		std::cout << __FILE__ << ": " << __LINE__ << ": " << "ERROR, variable " << name << " no existe\n";
+		return;
 	}
+
+	glUniform1i(location, val);
 }
 
 void GLProgram::setFloat(std::string name, float val)
 {
 	unsigned int location = getVarLocation(name);
 
-	if (location != -1) { //Ha encontrado la variable
-		glUniform1f(location, val);
+	if (location == -1)
+	{ // Ha encontrado la variable
+		std::cout << __FILE__ << ": " << __LINE__ << ": ERROR, variable " << name << " no existe\n";
+		return;
 	}
-	else { //No la ha encontrado
-		std::cout << __FILE__ << ": " << __LINE__ << ": " "ERROR, variable " << name << " no existe\n";
-	}
+
+	glUniform1f(location, val);
 }
 
-void GLProgram::setVec3(std::string name, const glm::vec3& vec)
+void GLProgram::setVec3(std::string name, const glm::vec3 &vec)
 {
 	unsigned int location = getVarLocation(name);
 
-	if (location != -1) { //Ha encontrado la variable
-		glUniform3fv(location, 1, &vec[0]);
+	if (location == -1)
+	{ // Ha encontrado la variable
+		std::cout << __FILE__ << ": " << __LINE__ << ": ERROR, variable " << name << " no existe\n";
+		return;
 	}
-	else { //No la ha encontrado
-		std::cout << __FILE__ << ": " << __LINE__ << ": " "ERROR, variable " << name << " no existe\n";
-	}
+
+	glUniform3fv(location, 1, &vec[0]);
 }
 
-void GLProgram::setVec4(std::string name, const glm::vec4& vec)
+void GLProgram::setVec4(std::string name, const glm::vec4 &vec)
 {
 	unsigned int location = getVarLocation(name);
 
-	if (location != -1) { //Ha encontrado la variable
-		glUniform4fv(location, 1, &vec[0]);
+	if (location == -1)
+	{ // Ha encontrado la variable
+		std::cout << __FILE__ << ": " << __LINE__ << ": ERROR, variable " << name << " no existe\n";
+		return;
 	}
-	else { //No la ha encontrado
-		std::cout << __FILE__ << ": " << __LINE__ << ": " "ERROR, variable " << name << " no existe\n";
-	}
+
+	glUniform4fv(location, 1, &vec[0]);
 }
 
-void GLProgram::setMatrix(std::string name, const glm::mat4& matrix)
+void GLProgram::setMatrix(std::string name, const glm::mat4 &matrix)
 {
 	unsigned int location = getVarLocation(name);
 
-	if (location != -1) { //Ha encontrado la variable
-		glUniformMatrix4fv(location, 1, GL_FALSE, &matrix[0][0]);
+	if (location == -1)
+	{ // Ha encontrado la variable
+		std::cout << __FILE__ << ": " << __LINE__ << ": ERROR, variable " << name << " no existe\n";
+		return;
 	}
-	else { //No la ha encontrado
-		std::cout << __FILE__ << ": " << __LINE__ << ": " "ERROR, variable " << name << " no existe\n";
-	}
+
+	glUniformMatrix4fv(location, 1, GL_FALSE, &matrix[0][0]);
 }
 
 /* WITH OFFSET */
@@ -387,60 +399,61 @@ void GLProgram::setInt(std::string name, int val, int offset, int stride)
 {
 	unsigned int location = getVarLocation(name);
 
-	if (location != -1) { //Ha encontrado la variable
-		glUniform1i(location + offset * stride, val);
+	if (location == -1)
+	{ // Ha encontrado la variable
+		std::cout << __FILE__ << ": " << __LINE__ << ": ERROR, variable " << name << " no existe\n";
+		return;
 	}
-	else { //No la ha encontrado
-		std::cout << __FILE__ << ": " << __LINE__ << ": " << "ERROR, variable " << name << " no existe\n";
-	}
+
+	glUniform1i(location + offset * stride, val);
 }
 
 void GLProgram::setFloat(std::string name, float val, int offset, int stride)
 {
 	unsigned int location = getVarLocation(name);
+	if (location == -1)
+	{ // Ha encontrado la variable
+		std::cout << __FILE__ << ": " << __LINE__ << ": ERROR, variable " << name << " no existe\n";
+		return;
+	}
 
-	if (location != -1) { //Ha encontrado la variable
-		glUniform1f(location + offset * stride, val);
-	}
-	else { //No la ha encontrado
-		std::cout << __FILE__ << ": " << __LINE__ << ": " "ERROR, variable " << name << " no existe\n";
-	}
+	glUniform1f(location + offset * stride, val);
 }
 
-void GLProgram::setVec3(std::string name, const glm::vec3& vec, int offset, int stride)
+void GLProgram::setVec3(std::string name, const glm::vec3 &vec, int offset, int stride)
 {
 	unsigned int location = getVarLocation(name);
+	if (location == -1)
+	{ // Ha encontrado la variable
+		std::cout << __FILE__ << ": " << __LINE__ << ": ERROR, variable " << name << " no existe\n";
+		return;
+	}
 
-	if (location != -1) { //Ha encontrado la variable
-		glUniform3fv(location + offset * stride, 1, &vec[0]);
-	}
-	else { //No la ha encontrado
-		std::cout << __FILE__ << ": " << __LINE__ << ": " "ERROR, variable " << name << " no existe\n";
-	}
+	glUniform3fv(location + offset * stride, 1, &vec[0]);
 }
 
-void GLProgram::setVec4(std::string name, const glm::vec4& vec, int offset, int stride)
+void GLProgram::setVec4(std::string name, const glm::vec4 &vec, int offset, int stride)
 {
 	unsigned int location = getVarLocation(name);
+	if (location == -1)
+	{ // Ha encontrado la variable
+		std::cout << __FILE__ << ": " << __LINE__ << ": ERROR, variable " << name << " no existe\n";
+		return;
+	}
 
-	if (location != -1) { //Ha encontrado la variable
-		glUniform4fv(location + offset * stride, 1, &vec[0]);
-	}
-	else { //No la ha encontrado
-		std::cout << __FILE__ << ": " << __LINE__ << ": " "ERROR, variable " << name << " no existe\n";
-	}
+	glUniform4fv(location + offset * stride, 1, &vec[0]);
 }
 
-void GLProgram::setMatrix(std::string name, const glm::mat4& matrix, int offset, int stride)
+void GLProgram::setMatrix(std::string name, const glm::mat4 &matrix, int offset, int stride)
 {
 	unsigned int location = getVarLocation(name);
+	if (location == -1)
+	{ // Ha encontrado la variable
+		std::cout << __FILE__ << ": " << __LINE__ << ": ERROR, variable " << name << " no existe\n";
+		return;
+	}
 
-	if (location != -1) { //Ha encontrado la variable
-		glUniformMatrix4fv(location + offset * stride, 1, GL_FALSE, &matrix[0][0]);
-	}
-	else { //No la ha encontrado
-		std::cout << __FILE__ << ": " << __LINE__ << ": " "ERROR, variable " << name << " no existe\n";
-	}
+	glUniformMatrix4fv(location + offset * stride, 1, GL_FALSE, &matrix[0][0]);
 }
 
 void GLProgram::setColorTexEnable()
@@ -453,7 +466,7 @@ void GLProgram::setColorTexDisable()
 	setInt("mat.usetextureColor", 0);
 }
 
-void GLProgram::setLight(Light* l)
+void GLProgram::setLight(Light *l)
 {
 	setVec3("light.pos", l->getPos());
 	setVec3("light.rot", l->getDir());
@@ -461,7 +474,7 @@ void GLProgram::setLight(Light* l)
 	setInt("light.enable", 1);
 }
 
-void GLProgram::setLight(Light* l, int idx)
+void GLProgram::setLight(Light *l, int idx)
 {
 	int stride = Light::LIGHT_STRIDE;
 	setVec3("lights[0].pos", l->getPos(), idx, stride);
@@ -473,63 +486,70 @@ void GLProgram::setLight(Light* l, int idx)
 	setFloat("lights[0].cutOff", glm::cos(l->getCutOffAngle()), idx, stride);
 }
 
-void GLProgram::bindTextureSampler(int binding, Texture* tex)
+void GLProgram::bindTextureSampler(int binding, Texture *tex)
 {
 	glActiveTexture(GL_TEXTURE0 + binding);
 
 	if (tex->isCube())
 	{
-		glBindTexture(GL_TEXTURE_CUBE_MAP, ((GLTexture*)tex)->getTexId());
+		glBindTexture(GL_TEXTURE_CUBE_MAP, ((GLTexture *)tex)->getTexId());
 	}
 	else if (tex->is3D())
 	{
-		glBindTexture(GL_TEXTURE_3D, ((GLTexture*)tex)->getTexId());
+		glBindTexture(GL_TEXTURE_3D, ((GLTexture *)tex)->getTexId());
 	}
 	else
 	{
-		glBindTexture(GL_TEXTURE_2D, ((GLTexture*)tex)->getTexId());
+		glBindTexture(GL_TEXTURE_2D, ((GLTexture *)tex)->getTexId());
 	}
-
 }
 
 void GLProgram::setColorTexSampler(int idx, int use)
 {
-	//buscar location
+	// buscar location
 	std::string key1 = "textureColor";
 	std::string key2 = "mat.usetextureDepth";
 
 	auto location1 = varList.find(key1);
 	auto location2 = varList.find(key2);
 
-	if (location1 != varList.end() && location2 != varList.end())
+	if (location1 == varList.end())
 	{
-		glUniform1i(location1->second, idx);
-		glUniform1i(location2->second, use);
-	}
-	else {
 		std::cout << __FILE__ << ":" << __LINE__ << "ERROR, variable " << key1 << " no existe\n";
-		std::cout << __FILE__ << ":" << __LINE__ << "ERROR, variable " << key2 << " no existe\n";
-
+		return;
 	}
+
+	if (location2 == varList.end())
+	{
+		std::cout << __FILE__ << ":" << __LINE__ << "ERROR, variable " << key2 << " no existe\n";
+		return;
+	}
+
+	glUniform1i(location1->second, idx);
+	glUniform1i(location2->second, use);
 }
 
 void GLProgram::setColorCubicSampler(int idx, int use)
 {
-	//buscar location
+	// buscar location
 	std::string key1 = "cubetextureColor";
 	std::string key2 = "mat.useCubeTex";
 
 	auto location1 = varList.find(key1);
 	auto location2 = varList.find(key2);
 
-	if (location1 != varList.end() && location2 != varList.end())
-	{
-		glUniform1i(location1->second, idx);
-		glUniform1i(location2->second, use);
-	}
-	else
+	if (location1 == varList.end())
 	{
 		std::cout << __FILE__ << ":" << __LINE__ << "ERROR, variable " << key1 << " no existe\n";
-		std::cout << __FILE__ << ":" << __LINE__ << "ERROR, variable " << key2 << " no existe\n";
+		return;
 	}
+
+	if (location2 == varList.end())
+	{
+		std::cout << __FILE__ << ":" << __LINE__ << "ERROR, variable " << key2 << " no existe\n";
+		return;
+	}
+
+	glUniform1i(location1->second, idx);
+	glUniform1i(location2->second, use);
 }

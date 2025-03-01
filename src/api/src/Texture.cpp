@@ -9,7 +9,7 @@ Texture::Texture()
 	this->fileName = "";
 	this->size = glm::ivec2(0);
 
-	//texBytes = std::vector<unsigned char>();
+	// texBytes = std::vector<unsigned char>();
 }
 
 Texture::Texture(std::string fileName)
@@ -18,7 +18,7 @@ Texture::Texture(std::string fileName)
 	this->fileName = fileName;
 	this->size = glm::ivec2(0);
 
-	//texBytes = std::vector<unsigned char>();
+	// texBytes = std::vector<unsigned char>();
 
 	this->load(fileName);
 }
@@ -48,34 +48,32 @@ void Texture::load(std::string fileName)
 	int comp;
 	int sizeX = 0, sizeY = 0;
 
-	unsigned char* data = stbi_load(fileName.c_str(), &sizeX, &sizeY, &comp, 4);
+	unsigned char *data = stbi_load(fileName.c_str(), &sizeX, &sizeY, &comp, 4);
 
 	this->texBytes.resize(1);
 
 	if (data == nullptr)
 	{
 		std::cout << __FILE__ << ":" << __LINE__ << " ERROR: fichero " << fileName << " no encontrado\n";
+		return;
 	}
-	else
-	{
-		texBytes[0] = std::vector<unsigned char>(sizeX * sizeY * 4);
-		memcpy(texBytes[0].data(), data, texBytes[0].size());
-		stbi_image_free(data);
+	texBytes[0] = std::vector<unsigned char>(sizeX * sizeY * 4);
+	memcpy(texBytes[0].data(), data, texBytes[0].size());
+	stbi_image_free(data);
 
-		size = glm::ivec2({ sizeX, sizeY });
+	size = glm::ivec2({sizeX, sizeY});
 
-		//update();
-	}
+	// update();
 }
 
-void Texture::load(const std::string& left, const std::string& right,
-	const std::string& front, const std::string& back,
-	const std::string& top, const std::string& bottom)
+void Texture::load(const std::string &left, const std::string &right,
+				   const std::string &front, const std::string &back,
+				   const std::string &top, const std::string &bottom)
 {
 	this->texBytes.resize(6);
 
 	int comp;
-	unsigned char* data[6];
+	unsigned char *data[6];
 	this->cubemap = true;
 	data[0] = stbi_load(left.c_str(), &size.x, &size.y, &comp, 4);
 	data[1] = stbi_load(right.c_str(), &size.x, &size.y, &comp, 4);
@@ -95,12 +93,12 @@ void Texture::load(const std::string& left, const std::string& right,
 	this->bilinear = true;
 }
 
-void Texture::load(const std::string& name, const std::string& format, int frame_range)
+void Texture::load(const std::string &name, const std::string &format, int frame_range)
 {
 	this->texBytes.resize(1);
 
 	int comp;
-	unsigned char** data = new unsigned char* [frame_range];
+	unsigned char **data = new unsigned char *[frame_range];
 
 	for (int i = 0; i < frame_range; i++)
 	{
@@ -108,7 +106,8 @@ void Texture::load(const std::string& name, const std::string& format, int frame
 		data[i] = stbi_load(path.c_str(), &size.x, &size.y, &comp, 4);
 	}
 
-	for (int i = 0; i < frame_range; i++) {
+	for (int i = 0; i < frame_range; i++)
+	{
 		this->texBytes[0].insert(this->texBytes[0].end(), data[i], data[i] + size.x * size.y * 4);
 
 		stbi_image_free(data[i]);

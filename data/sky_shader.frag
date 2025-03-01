@@ -279,6 +279,7 @@ vec3 getBoxUVW(vec3 p, vec3 minBound, vec3 maxBound, float tilingFactor) {
 	float v = invlerp(minBound.y, maxBound.y, p.y);
 	float w = invlerp(minBound.z, maxBound.z, p.z);
 
+	return vec3(u * tilingFactor, w * tilingFactor, v * tilingFactor);
 	return vec3(u * tilingFactor, w * tilingFactor, v);
 }
 
@@ -315,7 +316,7 @@ float sampleDensity(vec3 uvw, int doCheaply, float mipLevel) {
 
 	// esto no tiene mas resolucions >:(
 	float cloud_coverage = texture(weatherMap, uvw.xy * uvScaleCoverage / uvScaleBase).g;
-	// cloud_coverage = saturate(remap(cloud_coverage, 0, 1, 0, debugZ));
+	cloud_coverage = saturate(remap(cloud_coverage, 0, 1, 0, debugZ));
 
 	float power = remap(height_fraction, 0.6, 0.8, 1.0, mix(1.0, 0.5, anvil_bias));
 	power = min(power, 1);

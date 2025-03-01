@@ -1,4 +1,4 @@
-#version 330
+#version 450
 
 struct mat_t {
 	int shinny;
@@ -17,13 +17,13 @@ struct mat_t {
 	int isMirror;
 };
 
-attribute vec4 vPos;
-attribute vec4 vColor;
-attribute vec4 vNormal;
-attribute vec4 vTangent;
-attribute vec2 vCoordTex;
-attribute vec4 vboneIndices;
-attribute vec4 vboneWeights;
+in vec4 vPos;
+in vec4 vColor;
+in vec4 vNormal;
+in vec4 vTangent;
+in vec2 vCoordTex;
+in vec4 vboneIndices;
+in vec4 vboneWeights;
 
 uniform mat_t mat;
 uniform mat4 MVP;
@@ -76,7 +76,7 @@ void main() {
 		fTexCube = refract(I, fNormal, 1.0 / mat.refractionIndex);
 	}
 
-	vec3 tan = normalize((invT * vTangent).xyz);
-	vec3 bitan = cross(tan, fNormal);
-	TBN = transpose(mat3(tan, bitan, fNormal.xyz));
+	vec3 vtan = normalize((invT * vTangent).xyz);
+	vec3 bitan = cross(vtan, fNormal);
+	TBN = transpose(mat3(vtan, bitan, fNormal.xyz));
 }

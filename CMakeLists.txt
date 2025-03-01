@@ -29,4 +29,5 @@ add_subdirectory(libs/pugixml)
 target_link_libraries(Begi pugixml::pugixml)
 
 # I think /Debug/data should be /data on linux
+file(REMOVE_RECURSE ${CMAKE_BINARY_DIR}/Debug/data)
 file(COPY ${CMAKE_SOURCE_DIR}/data DESTINATION ${CMAKE_BINARY_DIR}/Debug/)

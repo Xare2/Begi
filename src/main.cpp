@@ -92,14 +92,14 @@ void SceneCloud()
 	world.setAmbientColor({.1f, .1f, .1f});
 	System::setWorld(&world);
 
-	FollowCamObject skybox = FollowCamObject("./data/skyboxObj.msh");
-	skybox.setSize(glm::vec3(500.f));
+	// FollowCamObject skybox = FollowCamObject("./data/skyboxObj.msh");
+	// skybox.setSize(glm::vec3(500.f));
 
-	// Object3D scene = Object3D("./data/terrain.msh");
-	// scene.setPos(glm::vec3(-500.f, -25.0f, 500.0f));
+	Object3D scene = Object3D("./data/terrain.msh");
+	scene.setPos(glm::vec3(-500.f, -25.0f, 500.0f));
 
 	Light light = Light();
-	light.setColor({.95f, .85f, .925f, 1});
+	light.setColor({.9f, .85f, .95f, 1});
 	// light.setColor(glm::vec4({ 224, 167, 162 ,255 }) / 255.f);
 	light.setType(lightType_e::directional);
 	light.setPos({0, 0, 10});
@@ -114,9 +114,9 @@ void SceneCloud()
 
 	PostProcessPlane clouds = PostProcessPlane(1, &kcam);
 
-	// System::addObject(0, &scene);
+	System::addObject(0, &scene);
 
-	// System::addObject(1, &scene);
+	System::addObject(1, &scene);
 
 	System::addObject(2, &clouds);
 

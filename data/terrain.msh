@@ -11,7 +11,7 @@
 				<depthWrite>true</depthWrite>
 				<light>true</light>
 				<shadow>false</shadow>
-				<shininess>0</shininess>
+				<shininess>1</shininess>
 				<blendMode>alpha</blendMode>
 				<refraction>false</refraction>
 				<refractIndex>0.9</refractIndex>

@@ -1,32 +1,32 @@
-#version 330
+#version 450
 #extension GL_NV_shadow_samplers_cube : enable
 
 struct mat_t {
-	int shinny;
-	vec4 color;
-	int enable;
-	int usetextureDepth;
-	int usetextureColor;
-	// int usemirrorTexture;
-	int usecubetextureColor;
-	int usetextureNormal;
-	int receiveLight;
-	int reflectionEnable;
-	int refractionEnable;
-	float refractionIndex;
-	int shadowEnable;
-	int isMirror;
+    int shinny;
+    vec4 color;
+    int enable;
+    int usetextureDepth;
+    int usetextureColor;
+    // int usemirrorTexture;
+    int usecubetextureColor;
+    int usetextureNormal;
+    int receiveLight;
+    int reflectionEnable;
+    int refractionEnable;
+    float refractionIndex;
+    int shadowEnable;
+    int isMirror;
 };
 
 // MAX 8 LUCES
 struct light_t {
-	int enable;
-	int type;
-	float attenuation;
-	float cutOff;
-	vec3 pos;
-	vec3 dir;
-	vec4 color;
+    int enable;
+    int type;
+    float attenuation;
+    float cutOff;
+    vec3 pos;
+    vec3 dir;
+    vec4 color;
 };
 
 uniform sampler2D textureColor;
@@ -52,100 +52,122 @@ in vec3 fPos;
 in vec3 fTexCube;
 in mat3 TBN;
 
+out vec4 outColor;
+
+vec3 getLightColor(vec3 normalVector) {
+    vec3 lightColor = vec3(0);
+    vec3 lightDifusseSum = vec3(0, 0, 0);
+    vec3 lightSpecularSum = vec3(0, 0, 0);
+    vec3 lightColorSum = vec3(0.0, 0.0, 0.0);
+
+    if(useLight != 1 || mat.receiveLight != 1) {
+        return ambientColor;
+    }
+
+    vec3 L = vec3(0, 0, 0);
+    vec3 R = vec3(0);
+    vec3 EYE = vec3(0);
+    for(int i = 0; i < nLights; i++) {
+        light_t light = lights[i];
+        if (light.enable != 1) {
+            continue;
+        }
+
+        float attenuation = 1;
+        float cuttOff = 1;
+
+        switch (light.type) {
+            case 0: {
+                L = normalize(light.pos - fPos);
+                float d = length(light.pos - fPos);
+                // aunque porsimplificación los valores de atenuación constante y cuadrática no 
+                // serán modificables y tendrán os valores 1 y 0 respectivamente 
+                attenuation = 10 / (1 + light.attenuation * d + 0 * d * d);
+                attenuation = clamp(attenuation, 0., 1.);
+            }
+            break;
+            case 1: {
+                L = normalize(-light.dir);
+            }
+            break;
+            case 2: {
+                L = normalize(light.pos - fPos);
+                float theta = dot(L, normalize(-light.dir));
+
+                if(theta > light.cutOff) {
+                    cuttOff = 1;
+                }
+                else {
+                    cuttOff = 0;
+                }
+            }
+            break;
+        }
+
+        float diffuse = max(dot(normalVector, L), 0.0);
+
+        //calcular especular
+        R = reflect(L, normalVector);
+        EYE = normalize(cameraPos - fPos);
+        float specular = pow(max(dot(EYE, R), 0.0), mat.shinny);
+
+        lightDifusseSum += vec3(diffuse * attenuation * cuttOff);
+        lightSpecularSum += vec3(specular * attenuation * cuttOff);
+        lightColorSum += light.color.rgb * attenuation * cuttOff;
+    }
+
+    lightColor = ambientColor + lightDifusseSum + lightSpecularSum;
+    lightColor *= lightColorSum; // Apply the light color
+    
+
+    return lightColor;
+}
+
 void main() {
-	vec4 finalColor = vec4(0, 0, 0, 1);
-	vec4 baseColor = vec4(0, 0, 0, 1);
-	vec4 lightColor = vec4(1, 1, 1, 1);
-	vec3 normal = fNormal;
-	float shadow = 1.0;
-	vec2 uvCoords = fCoordTex;
-	
-	if(mat.isMirror == 1) {
-		uvCoords.x *= -1;
-	}
+    vec4 finalColor = vec4(0, 0, 0, 1);
+    vec4 baseColor = vec4(0, 0, 0, 1);
+    vec3 lightColor = vec3(1, 1, 1);
+    vec3 normalVector = fNormal;
+    float shadow = 1.0;
+    vec2 uvCoords = fCoordTex;
 
-	if(mat.shadowEnable == 1 && mat.usetextureDepth == 1) {
-		// gl_FragColor=vec4(1, 0, .5, 1);
-		// return;
-		if(texture2D(textureDepth, fDepthCoord.xy).z < (fDepthCoord.z - 0.0009))
-			shadow = 0.2;//gradiente de sombra
-	}
+    if(mat.isMirror == 1) {
+        uvCoords.x *= -1;
+    }
 
-	if(mat.usetextureColor == 1)
-		baseColor = texture2D(textureColor, uvCoords);
-	else if(mat.usecubetextureColor == 1) {
-		baseColor = textureCube(cubetextureColor, fTexCube);
-	}
-	// else if(mat.usemirrorTexture == 1) {
-	// 	baseColor = texture2D(mirrorTexture, fCoordTex);
-	// 	baseColor.a = 1;
-	// }
-	else
-		baseColor = fColor;
+    if(mat.shadowEnable == 1 && mat.usetextureDepth == 1 && texture(textureDepth, fDepthCoord.xy).z < (fDepthCoord.z - 0.0009)) {
+        shadow = 0.2;//gradiente de sombra
+    }
 
-	if(mat.enable == 1) {
-		baseColor *= mat.color;//sumar o multiplicar
-	}
+    if(mat.usetextureColor == 1) {
+        baseColor = texture(textureColor, uvCoords);
+    }
+    else if(mat.usecubetextureColor == 1) {
+        baseColor = texture(cubetextureColor, fTexCube);
+    }
+    // else if(mat.usemirrorTexture == 1) {
+    // 	baseColor = texture2D(mirrorTexture, fCoordTex);
+    // 	baseColor.a = 1;
+    // }
+    else {
+        baseColor = fColor;
+    }
 
-	if(mat.usetextureNormal == 1) {
-		vec3 normalTexValue = texture2D(textureNormal, uvCoords).xyz;
-		normalTexValue = (normalTexValue * 2.0) - 1.0;
-		normal = TBN * normalTexValue;
-		// normal = normalize(normal);
-	}
+    if(mat.enable == 1) {
+        baseColor *= mat.color;
+    }
 
-	vec4 lightDifusseSum = vec4(0, 0, 0, 1);
-	vec4 lightSpecularSum = vec4(0, 0, 0, 1);
-	vec4 lightColorSum = vec4(0.0, 0.0, 0.0, 1.0);
+    if(mat.usetextureNormal == 1) {
+        vec3 normalTexValue = texture(textureNormal, uvCoords).xyz;
+        normalTexValue = (normalTexValue * 2.0) - 1.0;
+        normalVector = TBN * normalTexValue;
+    }
 
-	if(useLight == 1 && mat.receiveLight == 1) {
-		for(int i = 0; i < nLights; i++) {
-			light_t light = lights[i];
-			if(light.enable == 1) {
-				//calcular difusa
-				vec3 L = vec3(0, 0, 0);
+    // lightColor = getLightColor(normalVector);
+    lightColor = getLightColor(normalize(fNormal));
+    
+    finalColor = baseColor * vec4(lightColor, 1);
+    finalColor = vec4((finalColor.rgb * shadow), finalColor.a);
 
-			//enum LightType {
-			//	point, directional, spotLight
-			//};
-				float attenuation = 1;
-				float cuttOff = 1;
-				if(light.type == 0) {
-					L = normalize(light.pos - fPos);
-					float d = length(light.pos - fPos);
-					// aunque porsimplificación los valores de atenuación constante y cuadrática no serán modificables y tendrán os valores 1 y 0 respectivamente 
-					attenuation = 10 / (1 + light.attenuation * d + 0 * d * d);
-					// attenuation = clamp(light.attenuation / length(light.pos - fPos), 0., 1.);
-					attenuation = clamp(attenuation, 0., 1.);
-				} else if(light.type == 1) {
-					L = normalize(-light.dir);
-				} else if(light.type == 2) {
-					L = normalize(light.pos - fPos);
-					float theta = dot(L, normalize(-light.dir));
-
-					if(theta > light.cutOff)
-						cuttOff = 1;
-					else
-						cuttOff = 0;
-				}
-
-				float diffuse = max(dot(L, normal), 0.0);
-				//calcular especular
-				vec3 R = normalize(reflect(L, normal));
-				vec3 EYE = normalize(fPos - cameraPos);
-				float specular = pow(max(dot(R, EYE), 0.0), mat.shinny);
-
-				lightDifusseSum += diffuse * attenuation * cuttOff;
-				lightSpecularSum += specular * attenuation * cuttOff;
-				lightColorSum += light.color * attenuation * cuttOff;
-			}
-		}
-
-		lightColor = (vec4(ambientColor, 1) + lightDifusseSum + lightSpecularSum) * lightColorSum;
-	}
-
-	finalColor = baseColor * lightColor;
-	finalColor = vec4((finalColor.rgb * shadow), finalColor.a);
-
-	gl_FragColor = finalColor;
+    outColor = finalColor;
 }
