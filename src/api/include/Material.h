@@ -1,8 +1,6 @@
 #pragma once
 #include "GLProgram.h"
-#include "VKProgram.h"
 #include "GLTexture.h"
-#include "VKTexture.h"
 
 
 class Material
@@ -119,20 +117,4 @@ class GLSLBoxCloudMaterial : public GLSLMaterial
 public:
 	GLSLBoxCloudMaterial();
 	void prepare() override;
-};
-
-class VKMaterial : public Material
-{
-private:
-
-public:
-	VKMaterial();
-
-	void copyValues(Material* mat) override {};
-
-	void loadPrograms(std::vector<std::string> files) override;
-	void prepare() override;
-
-	void setTexture(std::string filename) override;
-	void setTexture(std::string name, std::string filename, std::string type) override {};
 };

@@ -377,8 +377,8 @@ void VKProgram::linkProgram()
 
 void VKProgram::use()
 {
-	this->addProgram("./mapi/vk_shader.vert");
-	this->addProgram("./mapi/vk_shader.frag");
+	this->addProgram("./data/vk_shader.vert");
+	this->addProgram("./data/vk_shader.frag");
 }
 
 void VKProgram::checkLinkerErrors()

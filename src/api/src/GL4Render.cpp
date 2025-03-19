@@ -34,7 +34,7 @@ void GL4Render::setupObject(Object* obj)
 			continue;
 		}
 
-		bufferObject_t buffer{};
+		bufferObjectGL_t buffer{};
 
 		//reservar identificadores
 		glGenVertexArrays(1, &buffer.bufferId);
@@ -59,7 +59,7 @@ void GL4Render::updateObject(Object* obj)
 {
 	for (auto& mesh : obj->getMeshes())
 	{
-		bufferObject_t buffer = bufferObjectList[mesh->getMeshID()];
+		bufferObjectGL_t buffer = bufferObjectList[mesh->getMeshID()];
 
 		//copiar datos de vertices
 		glBindBuffer(GL_ARRAY_BUFFER, buffer.vertexBufferId);
@@ -88,7 +88,7 @@ void GL4Render::removeObject(Object* obj)
 				continue;
 		}
 
-		bufferObject_t buffer = bufferObjectList[mesh->getMeshID()];
+		bufferObjectGL_t buffer = bufferObjectList[mesh->getMeshID()];
 		glDeleteVertexArrays(1, &buffer.bufferId);
 		glDeleteBuffers(1, &buffer.vertexBufferId);
 		glDeleteBuffers(1, &buffer.indexBufferId);

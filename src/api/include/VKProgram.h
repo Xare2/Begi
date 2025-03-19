@@ -57,18 +57,18 @@ public:
 	QueueFamilyIndices queue;
 	VkSwapchainKHR swapChain;
 	/* --------------------------------- BUFFERS -------------------------------- */
-	std::vector<VkImage> swapChainImages;
-	VkFormat swapChainImageFormat; // tama�os y colores
+	std::vector<std::vector<VkImage>> swapChainImages;
+	VkFormat swapChainImageFormat; // tamaños y colores
 	VkExtent2D swapChainExtent;
 	/* -------------------------------------------------------------------------- */
-	std::vector<VkImageView> swapChainImageViews;
+	std::vector<std::vector<VkImageView>> swapChainImageViews;
 	VkImageView depthImageView;
 	/* -------------------------------------------------------------------------- */
 	VkRenderPass renderPass; // variables para usar/actualizar uniforms//tenemos que describir la estructura uniform
-	std::vector<VkFramebuffer> frameBuffers;
+	std::vector<std::vector<VkFramebuffer>> frameBuffers;
 	VkCommandPool commandPool;
 	//VkDescriptorPool descriptorPool;
-	std::vector<VkCommandBuffer> commandBuffers;
+	std::vector<std::vector<VkCommandBuffer>> commandBuffers;
 	VkSemaphore imageAvailableSemaphores[MAX_FRAMES_IN_FLIGHT];
 	VkSemaphore renderFinishedSemaphores[MAX_FRAMES_IN_FLIGHT];
 	VkFence inFlightFences[MAX_FRAMES_IN_FLIGHT];

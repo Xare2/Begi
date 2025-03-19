@@ -8,6 +8,7 @@
 #include "GLFWInputManager.h"
 #include "GLTexture.h"
 #include "VKTexture.h"
+#include "VKMaterial.h"
 
 inputBackend_e FactoryEngine::getInputBackend()
 {

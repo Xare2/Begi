@@ -17,12 +17,13 @@ A�O 2023-2024
 
 void VolumeCloud();
 void SceneCloud();
+void SceneVulkan();
 
 int main(int argc, char **argv)
 {
 	std::cout << "Hello from " << std::filesystem::current_path() << "!\n";
 	// VolumeCloud();
-	SceneCloud();
+	SceneVulkan();
 
 	return 0;
 }
@@ -123,6 +124,54 @@ void SceneCloud()
 	System::addCamera(0, &lightCam);
 	System::addCamera(1, &kcam);
 	System::addCamera(2, &kcam2);
+
+	System::addLight(0, &light);
+	System::addLight(1, &light);
+
+	System::mainLoop();
+
+	System::terminateSystem();
+}
+
+void SceneVulkan()
+{
+	FactoryEngine::setInputBackend(GLFW);
+	FactoryEngine::setGraphicsBackend(graphicsBackend_e::Vulkan);
+
+	System::readPipeLine("./data/config_vk.pipeline");
+	System::initSystem();
+
+	World world = World();
+	world.setAmbientColor({.1f, .1f, .1f});
+	System::setWorld(&world);
+
+	Object3D scene = Object3D("./data/terrain.msh");
+	scene.setPos(glm::vec3(-500.f, -25.0f, 500.0f));
+
+	Light light = Light();
+	light.setColor({.9f, .85f, .95f, 1});
+	// light.setColor(glm::vec4({ 224, 167, 162 ,255 }) / 255.f);
+	light.setType(lightType_e::directional);
+	light.setPos({0, 0, 10});
+	light.setRot({4.5, 0, 0});
+
+	ShadowCaster lightCam = ShadowCaster(&light);
+
+	CameraKeyboard kcam = CameraKeyboard({0, 0, 0}, {0, 0, 1});
+
+	CloneCamera kcam2 = CloneCamera(&kcam);
+
+	// PostProcessPlane clouds = PostProcessPlane(1, &kcam);
+
+	System::addObject(0, &scene);
+
+	System::addObject(1, &scene);
+
+	// System::addObject(2, &clouds);
+
+	System::addCamera(0, &lightCam);
+	System::addCamera(1, &kcam);
+	// System::addCamera(2, &kcam2);
 
 	System::addLight(0, &light);
 	System::addLight(1, &light);

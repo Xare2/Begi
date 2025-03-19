@@ -33,9 +33,9 @@ void System::mainLoop()
 		world->update(deltaTime);
 
 		// Start the Dear ImGui frame
-		ImGui_ImplOpenGL3_NewFrame();
-		ImGui_ImplGlfw_NewFrame();
-		ImGui::NewFrame();
+		// ImGui_ImplOpenGL3_NewFrame();
+		// ImGui_ImplGlfw_NewFrame();
+		// ImGui::NewFrame();
 		//ImGui::ShowDemoWindow(); // Show demo window! :)
 
 		float stepBegin, stepEnd;
@@ -43,7 +43,7 @@ void System::mainLoop()
 		int stepNumber = 0;
 		for (auto& step : pipeline)
 		{
-			((GLRender*)render)->setCurrentRenderStep(stepNumber);
+			render->setCurrentRenderStep(stepNumber);
 			world->setActiveCamera(stepNumber);
 			Camera* activeCamera = world->getCamera();
 			//Camera* activeCamera = System::cameras.at(stepNumber)[0];
@@ -69,7 +69,7 @@ void System::mainLoop()
 			for (auto& bufferName : step.input)
 			{
 				auto readBackBuffer =
-					((GL4Render*)render)->getBuffer(bufferName.second);
+					render->getBuffer(bufferName.second);
 				for (auto& obj : orderedObjectList)
 				{
 					for (auto& mesh : obj.second->getMeshes())
@@ -81,12 +81,11 @@ void System::mainLoop()
 			//activar buffers de salida en render
 			for (auto& bufferName : step.output)
 			{
-				((GL4Render*)render)->
-					setOutBuffer(bufferName.first, bufferName.second);
+				render->setOutBuffer(bufferName.first, bufferName.second);
 			}
 
 			//preparar buffer en render
-			((GL4Render*)render)->setupFrameBuffer();
+			render->setupFrameBuffer();
 
 			//dibujar
 			stepBegin = static_cast<float>(glfwGetTime());
@@ -102,7 +101,7 @@ void System::mainLoop()
 		glfwPollEvents();
 
 		// CREATE WINDOW
-		System::drawGUI();
+		// System::drawGUI();
 
 		render->swapBuffer();
 
@@ -120,31 +119,31 @@ void System::initSystem()
 	inputManager = FactoryEngine::getNewInputManager();
 
 	render->init();
-	inputManager->init(((GLRender*)render)->getWindow());
+	inputManager->init(render->getWindow());
 
 	// Setup Dear ImGui context
-	IMGUI_CHECKVERSION();
-	ImGui::CreateContext();
-	ImGuiIO& io = ImGui::GetIO();
-	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
-	io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+// 	IMGUI_CHECKVERSION();
+// 	ImGui::CreateContext();
+// 	ImGuiIO& io = ImGui::GetIO();
+// 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+// 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
 
-	// Setup Dear ImGui style
-	ImGui::StyleColorsDark();
+// 	// Setup Dear ImGui style
+// 	ImGui::StyleColorsDark();
 
-	// TODO esto tendria que ir en otro sitio
-	// Setup Platform/Renderer backends
-	ImGui_ImplGlfw_InitForOpenGL(((GLRender*)render)->getWindow(), true);          // Second param install_callback=true will install GLFW callbacks and chain to existing ones.
-	ImGui_ImplOpenGL3_Init();
+// 	// TODO esto tendria que ir en otro sitio
+// 	// Setup Platform/Renderer backends
+// 	ImGui_ImplGlfw_InitForOpenGL(((GLRender*)render)->getWindow(), true);          // Second param install_callback=true will install GLFW callbacks and chain to existing ones.
+// 	ImGui_ImplOpenGL3_Init();
 }
 
 void System::terminateSystem()
 {
 	glfwTerminate();
 
-	ImGui_ImplOpenGL3_Shutdown();
-	ImGui_ImplGlfw_Shutdown();
-	ImGui::DestroyContext();
+	// ImGui_ImplOpenGL3_Shutdown();
+	// ImGui_ImplGlfw_Shutdown();
+	// ImGui::DestroyContext();
 	//delete world;
 	//delete render;
 	//delete inputManager;

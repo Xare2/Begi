@@ -14,14 +14,13 @@ VKShader::VKShader(std::string fileName, unsigned int type) : Program(fileName, 
 void VKShader::readFile()
 {
 	std::ifstream f(fileName);
-	if (f.is_open())
-	{
-		code = std::string(std::istreambuf_iterator<char>(f), {});
-	}
-	else
+	if (!f.is_open())
 	{
 		std::cout << "ERROR: FICHERO NO ENCONTRADO " << __FILE__ << ":" << __LINE__ << " " << fileName << "\n";
+		return;
 	}
+	
+	code = std::string(std::istreambuf_iterator<char>(f), {});
 }
 
 void VKShader::compile()
