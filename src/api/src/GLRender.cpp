@@ -122,23 +122,6 @@ void GLRender::drawObject(Object *obj)
 	this->drawGL(obj);
 }
 
-void GLRender::drawObjects(std::list<Object *> *objs)
-{
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-	auto it = objs->begin();
-
-	while (it != objs->end())
-	{
-		drawGL((Object3D *)*it);
-		it++;
-	}
-
-	glDepthMask(GL_TRUE);
-
-	// this->swapBuffer();
-}
-
 void GLRender::drawObjects(std::map<float, Object *> *objs)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

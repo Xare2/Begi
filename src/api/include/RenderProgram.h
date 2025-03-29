@@ -27,7 +27,5 @@ public:
 	virtual void setLight(Light* l) = 0;
 	virtual void setLight(Light* l, int idx) = 0;
 
-	virtual void setColorTexEnable() = 0;
-	virtual void setColorTexDisable() = 0;
 	virtual void bindTextureSampler(int binding, Texture* text) = 0;
 };

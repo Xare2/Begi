@@ -58,8 +58,6 @@ public:
 
 	void setLight(Light* l) override;
 	void setLight(Light* l, int idx) override;
-	void setColorTexEnable() override;
-	void setColorTexDisable() override;
 	void bindTextureSampler(int binding, Texture* tex) override;
 
 	void setColorTexSampler(int idx, int use);

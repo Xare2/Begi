@@ -9,24 +9,38 @@ struct UniformBufferObject
 	alignas(16) glm::mat4 model;
 	alignas(16) glm::mat4 view;
 	alignas(16) glm::mat4 proj;
+	alignas(16) glm::mat4 depthBias;
 };
 
-//struct mat_t {
+// struct mat_t {
 //	int shinny;
 //	int enable;
 //	alignas(16) glm::vec4 color;
-//};
+// };
 
-struct mat_t {
+struct mat_t
+{
 	/*int shinny;
 	int enable;*/
-	alignas(16) glm::ivec4 shinnyAndEnable;
-	alignas(16) glm::vec4 color;
+	// alignas(16) glm::ivec4 shinnyAndEnable;
+	// alignas(16) glm::vec4 color;
+	int shinny;
+	glm::vec4 color;
+	int enable;
+	int usetextureDepth;
+	int usetextureColor;
+	int usecubetextureColor;
+	int usetextureNormal;
+	int receiveLight;
+	int reflectionEnable;
+	int refractionEnable;
+	float refractionIndex;
+	int shadowEnable;
+	int isMirror;
 };
 
 struct FragmentBufferObject
 {
-	int useTexColor = 1;
 	int nLights = 0;
 	alignas(16) glm::vec4 cameraPos;
 	alignas(16) glm::vec4 ambientColor;
@@ -47,7 +61,7 @@ struct QueueFamilyIndices
 class VulkanContext
 {
 public:
-	GLFWwindow* window;
+	GLFWwindow *window;
 	VkInstance instance;
 	VkSurfaceKHR surface;			 // una surface para dibujar "framebuffer"
 	VkPhysicalDevice physicalDevice; // una GPU "f�sica//
@@ -67,33 +81,32 @@ public:
 	VkRenderPass renderPass; // variables para usar/actualizar uniforms//tenemos que describir la estructura uniform
 	std::vector<std::vector<VkFramebuffer>> frameBuffers;
 	VkCommandPool commandPool;
-	//VkDescriptorPool descriptorPool;
+	// VkDescriptorPool descriptorPool;
 	std::vector<std::vector<VkCommandBuffer>> commandBuffers;
-	VkSemaphore imageAvailableSemaphores[MAX_FRAMES_IN_FLIGHT];
-	VkSemaphore renderFinishedSemaphores[MAX_FRAMES_IN_FLIGHT];
-	VkFence inFlightFences[MAX_FRAMES_IN_FLIGHT];
-	std::vector<VkFence> imagesInFlight;
+	std::vector<std::vector<VkSemaphore>> imageAvailableSemaphores;
+	std::vector<std::vector<VkSemaphore>> renderFinishedSemaphores;
+	std::vector<std::vector<VkFence>> inFlightFences;
 	int currentFrame = 0;
 };
 
 class VKProgram : public RenderProgram
 {
 private:
-	UniformBufferObject ubo{};
-	FragmentBufferObject fbo{};
 	VkSampler textureSampler{};
 	VkImageView textureImageView{};
 
 public:
+	UniformBufferObject ubo{};
+	FragmentBufferObject fbo{};
 	static inline const int UNIFORM_OBJECT_COUNT = 2;
 	static inline const int UNIFORM_OBJECT_VERTEX_LOCATION = 0;
-	//static inline const int UNIFORM_OBJECT_COLOR_LOCATION = 1;
+	// static inline const int UNIFORM_OBJECT_COLOR_LOCATION = 1;
 	static inline const int UNIFORM_OBJECT_FRAGMENT_LOCATION = 1;
 	static inline const int UNIFORM_OBJECT_SAMPLER_LOCATION = 2;
 
 	unsigned int pipeLineID = -1;
-	std::vector<std::vector<VKBufferMemory*>> uniformBuffers;	// por cada MAX_FRAMES_IN_FLIGHT creamos todos los buffers
-	VulkanContext* vkc;
+	std::vector<std::vector<VKBufferMemory *>> uniformBuffers; // por cada MAX_FRAMES_IN_FLIGHT creamos todos los buffers
+	VulkanContext *vkc;
 	VkDescriptorSetLayout descriptorSetLayout;
 	VkDescriptorPool descriptorPool;
 	// y enlazarla en el cauce grafico, para ser accesible desde partes concretas (shaders)
@@ -122,30 +135,27 @@ public:
 	void setVertexNormals(size_t description, int compCount);
 	void setVertexTangents(size_t description, int compCount);
 	void setVertexUVs(size_t description, int compCount);
-	void setMatrixM(const glm::mat4& matrix);
-	void setMatrixV(const glm::mat4& matrix);
-	void setMatrixP(const glm::mat4& matrix);
-	void setColor(const glm::vec4& color);
-
+	void setMatrixM(const glm::mat4 &matrix);
+	void setMatrixV(const glm::mat4 &matrix);
+	void setMatrixP(const glm::mat4 &matrix);
+	void setColor(const glm::vec4 &color);
 
 	void setInt(std::string name, int val) {}
 	void setFloat(std::string name, float val) {}
-	void setVec3(std::string name, const glm::vec3& vec) {}
-	void setVec4(std::string name, const glm::vec4& vec) {}
-	void setMatrix(std::string name, const glm::mat4& matrix) {}
+	void setVec3(std::string name, const glm::vec3 &vec) {}
+	void setVec4(std::string name, const glm::vec4 &vec) {}
+	void setMatrix(std::string name, const glm::mat4 &matrix) {}
 
 	void turnOffLight(int idx);
 
-	void setLight(Light* l) override {}
-	void setLight(Light* l, int idx) override;
+	void setLight(Light *l) override {}
+	void setLight(Light *l, int idx) override;
 
 	void setMat(uint8_t shininess, glm::vec4 color, int enable);
 	void setScene(int nLights, glm::vec3 cameraPos, glm::vec3 ambientColor);
 
 	void setColorTex();
-	void setColorTexEnable() override;
-	void setColorTexDisable() override;
-	void bindTextureSampler(int binding, Texture* text) override;
+	void bindTextureSampler(int binding, Texture *text) override;
 
 	unsigned int getProgramId() { return programId; }
 
@@ -159,8 +169,8 @@ public:
 	/* --------------------------------- VULKAN --------------------------------- */
 
 	void createDescriptorPool();
-	void createUniformBuffers();		// crear todos los VKBufferMemory que me hagan falta
-	void setVulkanContext(VulkanContext* vkc) { this->vkc = vkc; };
+	void createUniformBuffers(); // crear todos los VKBufferMemory que me hagan falta
+	void setVulkanContext(VulkanContext *vkc) { this->vkc = vkc; };
 	void createDescriptorSetLayout();
 	void createGraphicsPipeline();
 

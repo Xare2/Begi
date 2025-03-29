@@ -33,7 +33,6 @@ public:
 	void updateObject(Object *obj) override;
 	void removeObject(Object *obj) override;
 	void drawObject(Object *obj) override;
-	void drawObjects(std::list<Object *> *objs) override;
 	void drawObjects(std::map<float, Object *> *objs) override;
 
 	void setCurrentRenderStep(int currentStep) override;

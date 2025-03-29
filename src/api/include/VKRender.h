@@ -1,4 +1,6 @@
 #pragma once
+// #define NDEBUG
+
 #include "common.h"
 
 #include "Render.h"
@@ -24,8 +26,7 @@ class VKRender : public Render
 #ifdef NDEBUG
 	const bool enableValidationLayers = false;
 #else
-	// const bool enableValidationLayers = true;
-	const bool enableValidationLayers = false;
+	const bool enableValidationLayers = true;
 #endif
 	const std::vector<const char *> validationLayers = {
 		"VK_LAYER_KHRONOS_validation"
@@ -38,7 +39,8 @@ class VKRender : public Render
 	std::list<Object *> objList;
 
 	VkDebugUtilsMessengerEXT debugMessenger;
-	VKDepthBufferObject depthBufferObject;
+
+	bool checkValidationLayerSupport();
 
 public:
 	VKRender();
@@ -48,10 +50,11 @@ public:
 	void pickDevice();
 	QueueFamilyIndices selectQueue(VkPhysicalDevice device);
 	void createLogicalDevice();
-	void createSwapChain();
+	void createImages();
+	void createImage(size_t step);
+	void createSwapchainImage(size_t step);
 	void createImageViews();
 	void createRenderPass();
-	void drawFrame(std::list<Object *> &objs);
 	void drawFrame(std::map<float, Object *> &objs);
 	void createCommandBuffers();
 	void addCommands(int cbId, Mesh3D *mesh);
@@ -68,8 +71,8 @@ public:
 	void setupDebugMessenger();
 	void populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT &createInfo);
 	std::vector<const char *> getRequiredExtensions();
-	VkResult CreateDebugUtilsMessengerEXT(VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT *pCreateInfo, const VkAllocationCallbacks *pAllocator, VkDebugUtilsMessengerEXT *pDebugMessenger);
-	void DestroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger, const VkAllocationCallbacks *pAllocator);
+	// VkResult CreateDebugUtilsMessengerEXT(VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT *pCreateInfo, const VkAllocationCallbacks *pAllocator, VkDebugUtilsMessengerEXT *pDebugMessenger);
+	// void DestroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger, const VkAllocationCallbacks *pAllocator);
 
 	VkSurfaceFormatKHR chooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR> &availableFormats);
 	VkPresentModeKHR chooseSwapPresentMode(const std::vector<VkPresentModeKHR> &availablePresentModes);
@@ -81,8 +84,7 @@ public:
 	virtual void updateObject(Object *obj) override;
 
 	virtual void removeObject(Object *obj) override;
-	virtual void drawObject(Object *objs) override;
-	virtual void drawObjects(std::list<Object *> *objs) override;
+	virtual void drawObject(Object *obj) override;
 	virtual void drawObjects(std::map<float, Object *> *objs) override;
 	virtual bool isClosed() override { return glfwWindowShouldClose(vkc->window); };
 	virtual void swapBuffer() override;

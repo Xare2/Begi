@@ -22,17 +22,17 @@ Particle::Particle(std::string mshFile, const glm::vec3& vel, const glm::vec3& p
 	// si autofade, no se comparte material
 	this->loadDataFromFile(mshFile, !autoFade);
 
-	Texture* tex = this->getMesh(0)->getMaterial()->getTexture();
+	// Texture* tex = this->getMesh(0)->getMaterial()->getTexture();
 
-	if (tex == nullptr)
-	{
-		this->setSize({ scale, scale, scale });
-		return;
-	}
+	// if (tex == nullptr)
+	// {
+	// 	this->setSize({ scale, scale, scale });
+	// 	return;
+	// }
 
-	glm::ivec2 texSize = tex->getSize();
+	// glm::ivec2 texSize = tex->getSize();
 
-	this->setSize({ scale * texSize.x, scale * texSize.y, scale });
+	// this->setSize({ scale * texSize.x, scale * texSize.y, scale });
 }
 
 float Particle::getRemainingLifetime() const

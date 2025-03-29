@@ -36,12 +36,14 @@
 #include <GLFW/glfw3.h>
 
 template <typename T>
-std::vector<T> splitString(const std::string& str, char delim) {
+std::vector<T> splitString(const std::string &str, char delim)
+{
 	std::vector<T> elems;
 	std::stringstream sstream(str);
 	std::string item;
 	T tipoDato;
-	if (str != "") {
+	if (str != "")
+	{
 		while (std::getline(sstream, item, delim))
 		{
 			std::istringstream str(item);

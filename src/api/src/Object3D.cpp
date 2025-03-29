@@ -4,32 +4,6 @@
 #include "GLRender.h"
 #include "GLTextureFB.h"
 
-TrianguloRot::TrianguloRot()
-{
-	std::vector<vertex_t> *vertexList_ = new std::vector<vertex_t>({
-		vertex_t({0, 0.5f, 0, 1.0f}, {1.0f, 0.0f, 0.0f, 1.f}, glm::vec4(0), {.5f, 1.f}),
-		vertex_t({-0.5f, -0.5f, 0, 1.0f}, {0.0f, 1.0f, 0.0f, 1.f}, glm::vec4(0), {0.f, 0.f}),
-		vertex_t({0.5f, -0.5f, 0, 1.0f}, {0.0f, 0.0f, 1.0f, 1.f}, glm::vec4(0), {1.f, 0.f}),
-	});
-
-	std::vector<uint32_t> *idxList = new std::vector<uint32_t>({0, 2, 1});
-	// std::vector<uint32_t>* idxList = new std::vector<uint32_t>({ 0, 1, 2 });
-
-	this->addMesh(new Mesh3D("TrianguloRot", vertexList_, idxList));
-
-	this->getMesh(0)->getMaterial()->getTexture()->load("./data/front.png");
-}
-
-void TrianguloRot::step(float deltaTime)
-{
-	auto currentRot = this->getRot();
-	currentRot.y += (float)M_PI_2 * deltaTime; // Multiplicamos por pi medios para que gire a 90 grados por segundo
-	this->setRot(currentRot);
-
-	if (System::getInputManager()->isPressed('E') || System::getInputManager()->isPressed('e'))
-		System::exit();
-}
-
 void Object3D::loadTextures(pugi::xml_node textureNode, Material *mat)
 {
 	auto typeAttrib = textureNode.attribute("type");
@@ -131,8 +105,6 @@ Material *Object3D::getMeshMaterial(pugi::xml_node material_description)
 	{
 		this->loadTextures(texture, mat);
 	}
-	else
-		mat->getProgram()->setColorTexDisable();
 
 	auto shadow = material_description.child("shadow");
 	if (shadow)
@@ -551,73 +523,6 @@ void Object3D::step(float deltaTime)
 			timeAccum -= spf;
 			this->calculateAnimMatrices();
 		}
-	}
-
-	if (System::getInputManager()->isPressed('E') || System::getInputManager()->isPressed('e'))
-		System::exit();
-}
-
-CubeTex::CubeTex()
-{
-	std::vector<vertex_t> *topVertList = new std::vector<vertex_t>({
-		vertex_t({-0.5f, -0.5f, -0.5f, 1.0f}, {1.0f, 0.0f, 0.0f, 1.f}, glm::vec4(0), {0.f, 0.f}),
-		vertex_t({0.5f, -0.5f, -0.5f, 1.0f}, {0.0f, 1.0f, 0.0f, 1.f}, glm::vec4(0), {1.f, 0.f}),
-		vertex_t({-0.5f, -0.5f, 0.5f, 1.0f}, {0.0f, 0.0f, 1.0f, 1.f}, glm::vec4(0), {0.f, 1.f}),
-		vertex_t({0.5f, -0.5f, 0.5f, 1.0f}, {0.0f, 0.0f, 1.0f, 1.f}, glm::vec4(0), {1.f, 1.f}),
-		vertex_t({-0.5f, 0.5f, -0.5f, 1.0f}, {1.0f, 0.0f, 0.0f, 1.f}, glm::vec4(0), {0.f, 0.f}),
-		vertex_t({0.5f, 0.5f, -0.5f, 1.0f}, {0.0f, 1.0f, 0.0f, 1.f}, glm::vec4(0), {1.f, 0.f}),
-		vertex_t({-0.5f, 0.5f, 0.5f, 1.0f}, {0.0f, 0.0f, 1.0f, 1.f}, glm::vec4(0), {0.f, 1.f}),
-		vertex_t({0.5f, 0.5f, 0.5f, 1.0f}, {0.0f, 0.0f, 1.0f, 1.f}, glm::vec4(0), {1.f, 1.f}),
-	});
-
-	std::vector<glm::uint32> *topBotFaces = new std::vector<glm::uint32>({0, 1, 3, 0, 3, 2,
-																		  7, 5, 4, 7, 4, 6});
-
-	std::vector<vertex_t> *sideVertList = new std::vector<vertex_t>({
-		vertex_t({-0.5f, -0.5f, -0.5f, 1.0f}, {1.0f, 0.0f, 0.0f, 1.f}, glm::vec4(0), {1.f, 0.f}),
-		vertex_t({0.5f, -0.5f, -0.5f, 1.0f}, {0.0f, 1.0f, 0.0f, 1.f}, glm::vec4(0), {0.f, 0.f}),
-		vertex_t({-0.5f, -0.5f, 0.5f, 1.0f}, {0.0f, 0.0f, 1.0f, 1.f}, glm::vec4(0), {0.f, 0.f}),
-		vertex_t({0.5f, -0.5f, 0.5f, 1.0f}, {0.0f, 0.0f, 1.0f, 1.f}, glm::vec4(0), {1.f, 0.f}),
-		vertex_t({-0.5f, 0.5f, -0.5f, 1.0f}, {1.0f, 0.0f, 0.0f, 1.f}, glm::vec4(0), {1.f, 1.f}),
-		vertex_t({0.5f, 0.5f, -0.5f, 1.0f}, {0.0f, 1.0f, 0.0f, 1.f}, glm::vec4(0), {0.f, 1.f}),
-		vertex_t({-0.5f, 0.5f, 0.5f, 1.0f}, {0.0f, 0.0f, 1.0f, 1.f}, glm::vec4(0), {0.f, 1.f}),
-		vertex_t({0.5f, 0.5f, 0.5f, 1.0f}, {0.0f, 0.0f, 1.0f, 1.f}, glm::vec4(0), {1.f, 1.f}),
-	});
-
-	std::vector<glm::uint32> *sideFaces = new std::vector<glm::uint32>({0, 6, 4, 0, 2, 6,
-																		0, 5, 1, 0, 4, 5,
-																		1, 5, 7, 1, 7, 3,
-																		2, 7, 6, 2, 3, 7});
-
-	this->addMesh(new Mesh3D("cubeTex", topVertList, topBotFaces));
-	this->addMesh(new Mesh3D("cubeTex", sideVertList, sideFaces));
-
-	this->getMesh(0)->recomputeNormals();
-	this->getMesh(1)->recomputeNormals();
-
-	this->getMesh(0)->getMaterial()->setTexture("./data/top.png");
-	this->getMesh(0)->getMaterial()->getTexture()->update();
-	this->getMesh(1)->getMaterial()->setTexture("./data/front.png");
-	this->getMesh(1)->getMaterial()->getTexture()->update();
-
-	// this->getMesh(1)->getMaterial()->getProgram()->setColorTexDisable();
-}
-
-CubeTex::CubeTex(std::string fileName)
-{
-	loadDataFromFile(fileName);
-}
-
-void CubeTex::step(float deltaTime)
-{
-	auto currentRot = this->getRot();
-	currentRot.y += (float)M_PI_2 * deltaTime; // Multiplicamos por pi medios para que gire a 90 grados por segundo
-	this->setRot(currentRot);
-
-	if (System::getInputManager()->isPressed('Q'))
-	{
-		this->getMesh(0)->getMaterial()->getProgram()->setColorTexEnable();
-		this->getMesh(1)->getMaterial()->getProgram()->setColorTexEnable();
 	}
 
 	if (System::getInputManager()->isPressed('E') || System::getInputManager()->isPressed('e'))

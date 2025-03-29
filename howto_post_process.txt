@@ -1,0 +1,30 @@
+To render offscreen in Vulkan, you need to:
+
+	Create an Offscreen Render Target: Create an image (like a VkImage) that will store the result of your offscreen rendering (this is the target of your post-processing pass).
+	Create a Framebuffer: Create a VkFramebuffer that uses the offscreen image as its attachment.
+	Configure Render Pass: Set up the render pass to use this offscreen target, specifying the image as the color attachment in the render pass.
+	Draw to the Offscreen Target: In the command buffer, start the render pass using the framebuffer, and do your rendering. The results will be written to this offscreen image.
+
+Step 1: Create an Offscreen Image
+
+	This is your render target. It’ll be a VkImage with the format and dimensions that you want for post-processing.
+
+Step 2: Create an Image View
+
+	To attach the image to a render pass, you need an image view:
+
+Step 3: Create the Framebuffer
+
+	Now you create a framebuffer that will use the offscreen image view as its attachment:
+
+Step 4: Configure the Render Pass (if needed)
+
+	For your post-processing render pass, you need to ensure it has the proper attachment references, such as for the offscreen image as a color attachment.
+
+Step 5: Record Command Buffer to Render Offscreen
+
+	Now, you can record commands to render to this offscreen image.
+
+Step 6: Use the Offscreen Image in Post-processing
+
+	After rendering to the offscreen image, you can use it as a texture for post-processing in another render pass.

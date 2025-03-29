@@ -1,0 +1,82 @@
+
+[INFO] Validation layer: windows_get_device_registry_files: GUID for 2 is not SoftwareComponent skipping
+
+------------------------
+
+[INFO] Validation layer: windows_get_device_registry_files: GUID for 3 is not SoftwareComponent skipping
+
+------------------------
+
+[INFO] Validation layer: Searching for ICD drivers named .\nvoglv64.dll
+
+------------------------
+
+[INFO] Validation layer: Loading layer library D:\Programas\VulkanSDK\1.4.3.309.0\Bin\.\VkLayer_khronos_validation.dll
+
+------------------------
+
+[INFO] Validation layer: Loading layer library C:\WINDOWS\System32\DriverStore\FileRepository\nv_dispig.inf_amd64_0afec3f2050014a0\.\nvoglv64.dll
+
+------------------------
+
+[WARNING] Validation layer: vkCreateImageView(): pCreateInfo->image VkImage 0xfa21a40000000003 used with no memory bound. Memory should be bound by calling vkBindImageMemory().
+The Vulkan spec states: If image is non-sparse then it must be bound completely and contiguously to a single VkDeviceMemory object (https://vulkan.lunarg.com/doc/view/1.4.309.0/windows/antora/spec/latest/chapters/resources.html#VUID-VkImageViewCreateInfo-image-01020)
+
+------------------------
+
+[WARNING] Validation layer: vkCreateImageView(): pCreateInfo->format VK_FORMAT_B8G8R8A8_SRGB is different from VkImage 0xfa21a40000000003 format (VK_FORMAT_R8G8B8A8_UNORM). Formats MUST be IDENTICAL unless VK_IMAGE_CREATE_MUTABLE_FORMAT BIT was set on image creation.
+The Vulkan spec states: If image was not created with the VK_IMAGE_CREATE_MUTABLE_FORMAT_BIT flag, or if the format of the image is a multi-planar format and if subresourceRange.aspectMask is VK_IMAGE_ASPECT_COLOR_BIT, format must be identical to the format used to create image (https://vulkan.lunarg.com/doc/view/1.4.309.0/windows/antora/spec/latest/chapters/resources.html#VUID-VkImageViewCreateInfo-image-01762)
+
+------------------------
+
+[WARNING] Validation layer: vkCreateFramebuffer(): pCreateInfo->pAttachments[0] VkImage 0xfa21a40000000003 used with no memory bound. Memory should be bound by calling vkBindImageMemory().
+
+------------------------
+
+[WARNING] Validation layer: vkCreateGraphicsPipelines(): pCreateInfos[0].pStages[1] SPIR-V (VK_SHADER_STAGE_FRAGMENT_BIT) uses descriptor [Set 0, Binding 4, variable "textureDepth"] (type VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER) but was not declared in the pipeline layout.
+The Vulkan spec states: If a resource variable is declared in a shader, the corresponding descriptor set in layout must match the shader stage (https://vulkan.lunarg.com/doc/view/1.4.309.0/windows/antora/spec/latest/chapters/pipelines.html#VUID-VkGraphicsPipelineCreateInfo-layout-07988)
+
+------------------------
+
+[WARNING] Validation layer: vkCreateGraphicsPipelines(): pCreateInfos[0].pStages[1] SPIR-V (VK_SHADER_STAGE_FRAGMENT_BIT) uses descriptor [Set 0, Binding 3, variable "textureColor"] (type VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER) but was not declared in the pipeline layout.
+The Vulkan spec states: If a resource variable is declared in a shader, the corresponding descriptor set in layout must match the shader stage (https://vulkan.lunarg.com/doc/view/1.4.309.0/windows/antora/spec/latest/chapters/pipelines.html#VUID-VkGraphicsPipelineCreateInfo-layout-07988)
+
+------------------------
+
+[WARNING] Validation layer: vkCreateGraphicsPipelines(): pCreateInfos[0] (SPIR-V Interface) VK_SHADER_STAGE_FRAGMENT_BIT declared input at Location 4 Component 0 but it is not an Output declared in VK_SHADER_STAGE_VERTEX_BIT.
+The Vulkan spec states: Any user-defined variables shared between the OpEntryPoint of two shader stages, and declared with Input as its Storage Class for the subsequent shader stage, must have all Location slots and Component words declared in the preceding shader stage's OpEntryPoint with Output as the Storage Class (https://vulkan.lunarg.com/doc/view/1.4.309.0/windows/antora/spec/latest/appendices/spirvenv.html#VUID-RuntimeSpirv-OpEntryPoint-08743)
+
+------------------------
+
+[WARNING] Validation layer: vkCreateGraphicsPipelines(): pCreateInfos[0] (SPIR-V Interface) VK_SHADER_STAGE_FRAGMENT_BIT declared input at Location 5 Component 0 but it is not an Output declared in VK_SHADER_STAGE_VERTEX_BIT.
+The Vulkan spec states: Any user-defined variables shared between the OpEntryPoint of two shader stages, and declared with Input as its Storage Class for the subsequent shader stage, must have all Location slots and Component words declared in the preceding shader stage's OpEntryPoint with Output as the Storage Class (https://vulkan.lunarg.com/doc/view/1.4.309.0/windows/antora/spec/latest/appendices/spirvenv.html#VUID-RuntimeSpirv-OpEntryPoint-08743)
+
+------------------------
+
+[WARNING] Validation layer: vkCreateGraphicsPipelines(): pCreateInfos[0] (SPIR-V Interface) VK_SHADER_STAGE_FRAGMENT_BIT declared input at Location 6 Component 0 but it is not an Output declared in VK_SHADER_STAGE_VERTEX_BIT.
+The Vulkan spec states: Any user-defined variables shared between the OpEntryPoint of two shader stages, and declared with Input as its Storage Class for the subsequent shader stage, must have all Location slots and Component words declared in the preceding shader stage's OpEntryPoint with Output as the Storage Class (https://vulkan.lunarg.com/doc/view/1.4.309.0/windows/antora/spec/latest/appendices/spirvenv.html#VUID-RuntimeSpirv-OpEntryPoint-08743)
+
+------------------------
+
+[WARNING] Validation layer: vkCreateGraphicsPipelines(): pCreateInfos[0] (SPIR-V Interface) VK_SHADER_STAGE_FRAGMENT_BIT declared input at Location 7 Component 0 but it is not an Output declared in VK_SHADER_STAGE_VERTEX_BIT.
+The Vulkan spec states: Any user-defined variables shared between the OpEntryPoint of two shader stages, and declared with Input as its Storage Class for the subsequent shader stage, must have all Location slots and Component words declared in the preceding shader stage's OpEntryPoint with Output as the Storage Class (https://vulkan.lunarg.com/doc/view/1.4.309.0/windows/antora/spec/latest/appendices/spirvenv.html#VUID-RuntimeSpirv-OpEntryPoint-08743)
+
+------------------------
+
+[WARNING] Validation layer: vkCmdDrawIndexed(): VkDescriptorSet 0x808562000000003f [Set 0, Binding 4, variable "textureDepth"] is invalid.
+The Vulkan spec states: Descriptors in each bound descriptor set, specified via vkCmdBindDescriptorSets, must be valid as described by descriptor validity if they are statically used by the VkPipeline bound to the pipeline bind point used by this command and the bound VkPipeline was not created with VK_PIPELINE_CREATE_DESCRIPTOR_BUFFER_BIT_EXT (https://vulkan.lunarg.com/doc/view/1.4.309.0/windows/antora/spec/latest/chapters/drawing.html#VUID-vkCmdDrawIndexed-None-08114)
+
+------------------------
+
+[WARNING] Validation layer: vkQueuePresentKHR(): pPresentInfo->pSwapchains[0] images passed to present must be in layout VK_IMAGE_LAYOUT_PRESENT_SRC_KHR or VK_IMAGE_LAYOUT_SHARED_PRESENT_KHR but is in VK_IMAGE_LAYOUT_UNDEFINED.
+The Vulkan spec states: Each element of pImageIndices must be the index of a presentable image acquired from the swapchain specified by the corresponding element of the pSwapchains array, and the presented image subresource must be in the VK_IMAGE_LAYOUT_PRESENT_SRC_KHR or VK_IMAGE_LAYOUT_SHARED_PRESENT_KHR layout at the time the operation is executed on a VkDevice (https://vulkan.lunarg.com/doc/view/1.4.309.0/windows/antora/spec/latest/chapters/VK_KHR_surface/wsi.html#VUID-VkPresentInfoKHR-pImageIndices-01430)
+
+------------------------
+
+[WARNING] Validation layer: vkCmdDrawIndexed(): VkDescriptorSet 0x808562000000003f [Set 0, Binding 4, variable "textureDepth"] is invalid.
+The Vulkan spec states: Descriptors in each bound descriptor set, specified via vkCmdBindDescriptorSets, must be valid as described by descriptor validity if they are statically used by the VkPipeline bound to the pipeline bind point used by this command and the bound VkPipeline was not created with VK_PIPELINE_CREATE_DESCRIPTOR_BUFFER_BIT_EXT (https://vulkan.lunarg.com/doc/view/1.4.309.0/windows/antora/spec/latest/chapters/drawing.html#VUID-vkCmdDrawIndexed-None-08114)
+
+------------------------
+
+Exception thrown at 0x00007FF81FD9B699 in Begi.exe: Microsoft C++ exception: std::runtime_error at memory location 0x00000018A30FEE00.
+upslis

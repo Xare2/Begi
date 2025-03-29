@@ -204,8 +204,16 @@ int System::getStepCount()
 	return stepNumber;
 }
 
+std::string System::getStepOutput(size_t step)
+{
+	// kinda messy, fix later
+	return pipeline.at(step).output.begin()->first;
+}
+
 void System::readPipeLine(std::string fileName)
 {
+	std::cout << "Reading pipeline from " << fileName << std::endl;
+
 	pugi::xml_document doc;
 	pugi::xml_parse_result result = doc.load_file(fileName.c_str());
 
@@ -235,6 +243,7 @@ void System::readPipeLine(std::string fileName)
 	}
 
 	stepNumber = (int)System::pipeline.size();
+	std::cout << "Pipeline has " << stepNumber << " steps\n";
 }
 
 void System::addLight(int pipelineStep, Light* l)

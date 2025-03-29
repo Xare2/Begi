@@ -67,6 +67,7 @@ public:
 
 	static bool shouldExit();
 	static int getStepCount();
+	static std::string getStepOutput(size_t step);
 
 	static void readPipeLine(std::string fileName);
 	static void addLight(int pipelineStep, Light* l);

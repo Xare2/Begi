@@ -22,7 +22,6 @@ public:
 	virtual void setTexture(std::string name, std::string filename, std::string type) = 0;
 	
 	RenderProgram* getProgram() { return program; };
-	Texture* getTexture();
 	Texture* getTexture(std::string name);
 	std::map<std::string, Texture*> getTextures();
 	void setTexture(std::string name, Texture* tex);

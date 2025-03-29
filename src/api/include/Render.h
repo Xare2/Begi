@@ -31,7 +31,6 @@ public:
 	virtual void updateObject(Object *ojb) = 0;
 	virtual void removeObject(Object *obj) = 0;
 	virtual void drawObject(Object *obj) = 0;
-	virtual void drawObjects(std::list<Object *> *objs) = 0;
 	virtual void drawObjects(std::map<float, Object *> *objs) = 0;
 
 	virtual GLFWwindow *getWindow() = 0;

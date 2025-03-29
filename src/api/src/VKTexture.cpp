@@ -7,12 +7,14 @@ VKTexture::VKTexture() : Texture()
 
 VKTexture::VKTexture(std::string filename) : Texture(filename)
 {
+	this->type = textureType_e::color2D;
 	//imageBufferObject = VKImageBufferObject()
 	//this->update();
 }
 
 VKTexture::VKTexture(std::string filename, VkDevice device, VkPhysicalDevice physicalDevice, VkCommandPool commandPool, VkQueue graphicsQueue) : Texture(fileName)
 {
+	this->type = textureType_e::color2D;
 	updateTextureImage(device, physicalDevice, commandPool, graphicsQueue);
 }
 

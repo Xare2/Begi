@@ -66,23 +66,6 @@ public:
 	void step(float deltaTime) override;
 };
 
-class TrianguloRot : public Object3D {
-
-public:
-	TrianguloRot();
-
-	void step(float deltaTime) override;
-
-};
-
-class CubeTex : public Object3D {
-public:
-
-	CubeTex();
-	CubeTex(std::string fileName);
-	void step(float deltaTime) override;
-};
-
 class FollowCamObject : public Object3D
 {
 public:

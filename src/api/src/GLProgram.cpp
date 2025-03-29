@@ -456,16 +456,6 @@ void GLProgram::setMatrix(std::string name, const glm::mat4 &matrix, int offset,
 	glUniformMatrix4fv(location + offset * stride, 1, GL_FALSE, &matrix[0][0]);
 }
 
-void GLProgram::setColorTexEnable()
-{
-	setInt("mat.usetextureColor", 1);
-}
-
-void GLProgram::setColorTexDisable()
-{
-	setInt("mat.usetextureColor", 0);
-}
-
 void GLProgram::setLight(Light *l)
 {
 	setVec3("light.pos", l->getPos());

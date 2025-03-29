@@ -192,39 +192,6 @@ void GLSLMaterial::prepare()
 		program->setMatrix("depthBias", depthBiasMat);
 		program->setInt("mat.shadowEnable", 1);
 	}
-	// if (textures.size() > 0)
-	//{
-	//	for (auto& t : this->textures)
-	//	{
-	//		if (t.first == Texture::COLOR_2D)
-	//		{
-	//			program->bindTextureSampler(0, t.second);
-	//			((GLProgram*)program)->setColorTexSampler(0, 1);
-	//		}
-	//		else if (t.first == Texture::CUBE_MAP)
-	//		{
-	//			program->bindTextureSampler(1, t.second);
-	//			((GLProgram*)program)->setColorCubicSampler(1, 1);
-	//		}
-	//		else if (t.first == Texture::NORMAL_MAP)
-	//		{
-	//			program->bindTextureSampler(2, t.second);
-	//			program->setInt("textureNormal", 2);
-	//			program->setInt("mat.useNormalTex", 1);
-	//		}
-	//	}
-	// }
-	// else
-	//{
-	//	((GLProgram*)program)->setColorTexSampler(0, 0);
-	//	((GLProgram*)program)->setColorCubicSampler(1, 0);
-	//	program->setInt("mat.useNormalTex", 0);
-	// }
-}
-
-Texture *Material::getTexture()
-{
-	return textures.begin()->second;
 }
 
 Texture *Material::getTexture(std::string name)
