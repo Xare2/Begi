@@ -23,7 +23,7 @@ int main(int argc, char **argv)
 {
 	std::cout << "Hello from " << std::filesystem::current_path() << "!\n";
 	// VolumeCloud();
-	SceneCloud();
+	SceneVulkan();
 
 	return 0;
 }
